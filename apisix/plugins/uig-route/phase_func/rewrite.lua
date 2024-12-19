@@ -8,7 +8,7 @@ local new_tab                   = require("table.new")
 local string_util               = require("apisix.plugins.utils.string_util")
 local fetch_fmt_encode          = require("apisix.plugins.uig-route.fetch_fmt_encode").invoke
 local fetch_process_appid       = require("apisix.plugins.uig-route.fetch_process_appid").invoke
-local template_exec             = require("apisix.plugins.nlbpm.template_exec")
+-- local template_exec             = require("apisix.plugins.nlbpm.template_exec")
 local json_decode               = core.json.decode
 local json_encode               = core.json.encode
 local sys_build                 = require("apisix.plugins.nlbpm.sys")
@@ -17,9 +17,7 @@ local get_req_headers           = req.headers
 local get_uri_args              = ngx.req.get_uri_args
 local get_req_body              = req.get_body
 local sub_str                   = string.sub
-local request_id                = require('apisix.plugins.request-id')
-local amg_util                  = require("apisix.plugins.utils.amg_util")
-local amg_req_handler           = require("apisix.plugins.amg.req_handler")
+-- local amg_req_handler           = require("apisix.plugins.amg.req_handler")
 local failed_req_record         = require("apisix.plugins.failed-req-record")
 local emergency_log             = require("apisix.plugins.emergency-log")
 local json_delay_encode         = core.json.delay_encode
@@ -84,9 +82,9 @@ local function protocol_process(conf,ctx,req_body)
     local req_info=ctx.req_info
     local req_headers = ngx.req.get_headers(nil,true)
     -- 判断是否接入服务amg标准的请求
-    if req_headers["server-type"] == "amg" then
-        return amg_req_handler.execute_amg_process(ctx)
-    end
+    -- if req_headers["server-type"] == "amg" then
+    --     return amg_req_handler.execute_amg_process(ctx)
+    -- end
 
     local trace_id = req_headers["traceid"]
     -- core.log.warn("trace_id:",trace_id)
@@ -110,9 +108,9 @@ local function protocol_process(conf,ctx,req_body)
     req_body = string_util.check_xml_declaration(req_body,1)
     local app_format, app_encoding, err = fetch_fmt_encode(req_body)
     if not app_format or not app_encoding then
-        if amg_req_handler.check_header(req_headers) then
-            return amg_req_handler.execute_amg_process(ctx,nil,true)
-        end
+        -- if amg_req_handler.check_header(req_headers) then
+        --     return amg_req_handler.execute_amg_process(ctx,nil,true)
+        -- end
         req_info.app_format="XML"
         req_info.app_encoding="UTF-8"
         core.log.error("获取请求格式和编码失败:",err)
@@ -150,9 +148,9 @@ local function protocol_process(conf,ctx,req_body)
                                 exception.code.DAG_ERR_REDIS_INIT,
                                 "【NY】内存数据库连接失败:"..err)
     elseif protocol_info == false then
-        if amg_req_handler.check_header(req_headers) then
-            return amg_req_handler.execute_amg_process(ctx,nil,true)
-        end
+        -- if amg_req_handler.check_header(req_headers) then
+        --     return amg_req_handler.execute_amg_process(ctx,nil,true)
+        -- end
         core.log.error("请求无法匹配协议模板,process_code:",
                         process_code, ",app_id:", app_id)
         return exception.throw(req_info, exception.type.EXCEPT_BUSINESS,
@@ -170,16 +168,16 @@ local function protocol_process(conf,ctx,req_body)
                                 "【NY】未找到对应的请求模板:" .. err)
     end
     emergency_log.g_log(ctx,"请求模板执行")
-    local exe_out, err_tab = template_exec.sfdl_exec(ctx,process_code,
-                                                        req_template_info.content,
-                                                        req_template_info.template_name,
-                                                        req_template_info.version_code,
-                                                        req_body, app_encoding)
-    if not exe_out then
-        core.log.error("请求模板执行失败:", err_tab.msg)
-        return exception.throw(req_info, err_tab.type, err_tab.code,
-                                err_tab.msg)
-    end
+    -- local exe_out, err_tab = template_exec.sfdl_exec(ctx,process_code,
+    --                                                     req_template_info.content,
+    --                                                     req_template_info.template_name,
+    --                                                     req_template_info.version_code,
+    --                                                     req_body, app_encoding)
+    -- if not exe_out then
+    --     core.log.error("请求模板执行失败:", err_tab.msg)
+    --     return exception.throw(req_info, err_tab.type, err_tab.code,
+    --                             err_tab.msg)
+    -- end
     if req_info.sys.ex_class then
         local ex_class = req_info.sys.ex_class
         local ex_code = req_info.sys.ex_code or ""
@@ -187,16 +185,16 @@ local function protocol_process(conf,ctx,req_body)
         core.log.error("模板返回业务错误:",ex_msg)
         return exception.throw(req_info, ex_class, ex_code, ex_msg)
     end
-    emergency_log.g_log(ctx,"请求模板处理完成返回headers:",exe_out.headers)
-    emergency_log.g_log(ctx,"请求模板处理完成返回body:",exe_out.body)
+    -- emergency_log.g_log(ctx,"请求模板处理完成返回headers:",exe_out.headers)
+    -- emergency_log.g_log(ctx,"请求模板处理完成返回body:",exe_out.body)
     req_info.protocol_info = protocol_info
-    req_info.req_tab = json_decode(exe_out.body)
+    -- req_info.req_tab = json_decode(exe_out.body)
     emergency_log.g_log(ctx,"请求模板执行成功")
     -- 打印sys系统参数
     emergency_log.sys_log(ctx)
 
     -- 设置能力请求头
-    set_ability_header(exe_out.headers)
+    -- set_ability_header(exe_out.headers)
 
     -- 重写uri
     local ability_code=req_info.sys.process_code
