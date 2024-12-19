@@ -22,8 +22,8 @@ if require("ffi").os == "Linux" then
 end
 
 require("jit.opt").start("minstitch=2", "maxtrace=4000",
-                         "maxrecord=8000", "sizemcode=64",
-                         "maxmcode=4000", "maxirconst=1000")
+        "maxrecord=8000", "sizemcode=64",
+        "maxmcode=4000", "maxirconst=1000")
 
 require("apisix.patch").patch()
 local core            = require("apisix.core")
@@ -59,7 +59,9 @@ local str_sub         = string.sub
 local tonumber        = tonumber
 local type            = type
 local pairs           = pairs
+local inspect = require("inspect")
 local control_api_router
+local config_util   = require("apisix.core.config_util")
 
 local is_http = false
 if ngx.config.subsystem == "http" then
@@ -563,12 +565,16 @@ function _M.http_access_phase()
     api_ctx.var.real_request_uri = api_ctx.var.request_uri
     api_ctx.var.request_uri = api_ctx.var.uri .. api_ctx.var.is_args .. (api_ctx.var.args or "")
 
+    -- 源码修改，调整执行全局规则获取路由顺序
+    plugin.run_global_rules(api_ctx, router.global_rules, nil)
+
     router.router_http.match(api_ctx)
 
     local route = api_ctx.matched_route
     if not route then
         -- run global rule when there is no matching route
-        plugin.run_global_rules(api_ctx, router.global_rules, nil)
+        -- 源码修改，移到上面
+        -- plugin.run_global_rules(api_ctx, router.global_rules, nil)
 
         core.log.info("not find any matched route")
         return core.response.exit(404,
@@ -595,7 +601,7 @@ function _M.http_access_phase()
         local service = service_fetch(route.value.service_id)
         if not service then
             core.log.error("failed to fetch service configuration by ",
-                           "id: ", route.value.service_id)
+                    "id: ", route.value.service_id)
             return core.response.exit(404)
         end
 
@@ -620,7 +626,8 @@ function _M.http_access_phase()
     api_ctx.route_name = route.value.name
 
     -- run global rule
-    plugin.run_global_rules(api_ctx, router.global_rules, nil)
+    -- 源码修改，执行第二遍会导致内存泄漏
+    --plugin.run_global_rules(api_ctx, router.global_rules, nil)
 
     if route.value.script then
         script.load(route, api_ctx)
@@ -949,7 +956,7 @@ function _M.stream_init_worker()
         local ok, err = core.config.init_worker()
         if not ok then
             core.log.error("failed to init worker process of ", core.config.type,
-                           " config center, err: ", err)
+                    " config center, err: ", err)
         end
     end
 
@@ -992,7 +999,7 @@ function _M.stream_preread_phase()
     end
 
     core.log.info("matched route: ",
-                  core.json.delay_encode(api_ctx.matched_route, true))
+            core.json.delay_encode(api_ctx.matched_route, true))
 
     local matched_route = api_ctx.matched_route
     if not matched_route then
@@ -1027,8 +1034,8 @@ function _M.stream_preread_phase()
 
         local route_val = matched_route.value
         api_ctx.matched_upstream = (matched_route.dns_value and
-                                    matched_route.dns_value.upstream)
-                                   or route_val.upstream
+                matched_route.dns_value.upstream)
+                or route_val.upstream
     end
 
     local plugins = core.tablepool.fetch("plugins", 32, 0)

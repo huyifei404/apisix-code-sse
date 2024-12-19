@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <process_define name="UIG_CRM_ERR">
+  <description>默认错误模板</description>
+  <body>
+    <assign can_ignore="true" from="sys.service_name" to="out.operation_out.service_name"/>
+    <assign can_ignore="true" from="sys.request_type" to="out.operation_out.request_type"/>
+    <assign can_ignore="true" from="sys.business_id" to="out.operation_out.sysfunc_id"/>
+    <assign can_ignore="true" from="sys.request_seq" to="out.operation_out.request_seq"/>
+    <assign can_ignore="true" from="_sysdate()" to="out.operation_out.response_timeq"/>
+    <assign can_ignore="true" from="sys.request_seq" to="out.operation_out.response_seq"/>
+    <assign can_ignore="true" from="sys.request_source" to="out.operation_out.request_source"/>
+    <assign can_ignore="true" from="sys.ex_class" to="out.operation_out.response.resp_type"/>
+    <assign can_ignore="true" from="sys.ex_code" to="out.operation_out.response.resp_code"/>
+    <assign can_ignore="true" from="sys.ex_msg" to="out.operation_out.response.resp_desc.__cdata"/>
+  </body>
+</process_define>
