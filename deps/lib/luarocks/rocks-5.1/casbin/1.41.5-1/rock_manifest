@@ -1,0 +1,61 @@
+rock_manifest = {
+   ["casbin-1.41.5-1.rockspec"] = "617e72046abfbc3744cf662ffc07cd09",
+   doc = {
+      ["CONTRIBUTING.md"] = "f0ca4ef8d386b9c051de86662297c974",
+      LICENSE = "e3fc50a88d0a364313df4b21ef20c29e",
+      ["README.md"] = "e6a2a3aa6ba69f8dd9f6dc474f79def1"
+   },
+   lua = {
+      ["casbin.lua"] = "6ce1526dd54cd0870b09b29653c9e9da",
+      modules = {
+         ["luaxp.lua"] = "0837ce44dc3a8f3bfe3f6e7b9dfbbd2b"
+      },
+      src = {
+         config = {
+            ["Config.lua"] = "d36df1fe139dd9176647881560330087"
+         },
+         effect = {
+            ["DefaultEffector.lua"] = "6df29e6de9264e22939f121d98c9c2d2",
+            ["Effect.lua"] = "b2487fbb75267c23d780164a051f860c",
+            ["Effector.lua"] = "099fac714ec2f39c03c440ecfc496c3a"
+         },
+         main = {
+            ["CachedEnforcer.lua"] = "ecef2e64c71088266e2156931350b6d3",
+            ["CoreEnforcer.lua"] = "0e12767d1448cc223835a871f046f8ca",
+            ["Enforcer.lua"] = "f91d792c09106366f6170ad41c03423a",
+            ["InternalEnforcer.lua"] = "05f5541987320f9180bcf214b4f4fe32",
+            ["ManagementEnforcer.lua"] = "1a18a9e5b4c78929809a273c5be14cff"
+         },
+         model = {
+            ["Assertion.lua"] = "e801b726d9772df544da5771c06a1dc1",
+            ["FunctionMap.lua"] = "0977893c6a7e2974195d4124afc45bee",
+            ["Model.lua"] = "fa454c4b8cab954b0a70cccbdacdbee3",
+            ["Policy.lua"] = "dff516d37cfbde075df831b5d81c9161"
+         },
+         persist = {
+            ["Adapter.lua"] = "96c191691b7eb019f2fa0df908de9b3d",
+            ["BatchAdapter.lua"] = "5aca7906d8004e70b0cd71e5d59ae532",
+            ["Dispatcher.lua"] = "4d0f350693cceeee881a80312157a17b",
+            ["FilteredAdapter.lua"] = "b5f766724ee4ad9b4cffefc5337c62d6",
+            ["Watcher.lua"] = "d06fd83c0216ba9f44afd16eaa5fd4ec",
+            ["WatcherEx.lua"] = "789ba4412c2123bab0e03e88391f81ba",
+            ["WatcherUpdatable.lua"] = "7bdbb8fdbb961af948e2b8b6893e56e0",
+            file_adapter = {
+               ["FileAdapter.lua"] = "2950698362005984077e2759d844b772",
+               ["Filter.lua"] = "76d8bbf028926dbf17256d2edb5b9117",
+               ["FilteredAdapter.lua"] = "ab0e58e1811024acb453df3526799e2d"
+            }
+         },
+         rbac = {
+            ["DefaultRoleManager.lua"] = "f04540bc73e322db848adc09aab9c8da",
+            ["Role.lua"] = "88eae4b7b99a4265892a7fd60f185ddd",
+            ["RoleManager.lua"] = "d3da8e9b2071fc8af221dbc9abda8eb3"
+         },
+         util = {
+            ["BuiltInFunctions.lua"] = "379a3c0c8e0e74816e058edc121e7b42",
+            ["Log.lua"] = "c72854abd3c6dee60239514d834b968e",
+            ["Util.lua"] = "3080ff97ec9a7f759e1285237ee90494"
+         }
+      }
+   }
+}

@@ -1,0 +1,16 @@
+rock_manifest = {
+   ["api7-lua-resty-jwt-0.2.4-0.rockspec"] = "baf6b5f3aff6149edd8a0c96a74e6be5",
+   doc = {
+      ["AUTHORS.md"] = "fbbd71023a49dd671db591a0024e7533",
+      LICENSE = "d2794c0df5b907fdace235a619d80314",
+      ["README.md"] = "961bc96c2cbb46857c5ca3b887b634a2"
+   },
+   lua = {
+      resty = {
+         ["evp.lua"] = "41c097ad67e9f8564cdf90aac40c925f",
+         ["hmac.lua"] = "ffb3f76b79f97c0839bd8a631f69122e",
+         ["jwt-validators.lua"] = "e89feea43a63bde60baf596b3eb26a62",
+         ["jwt.lua"] = "f3f440f28a2ec3ff0918bb6d26f9271c"
+      }
+   }
+}

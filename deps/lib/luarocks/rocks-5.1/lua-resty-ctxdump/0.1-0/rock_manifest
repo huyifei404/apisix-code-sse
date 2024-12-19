@@ -1,0 +1,11 @@
+rock_manifest = {
+   doc = {
+      ["README.md"] = "78662182d0ca577f73dff5ae0d240cdc"
+   },
+   lua = {
+      resty = {
+         ["ctxdump.lua"] = "91f0147731ed3e1739f50146583be220"
+      }
+   },
+   ["lua-resty-ctxdump-0.1-0.rockspec"] = "8a31608f342faffe15839eba57144455"
+}

@@ -1,0 +1,74 @@
+rock_manifest = {
+   doc = {
+      ["index.html"] = "c5f70115015322da97a59f7c2454c3c1",
+      ["ldoc.css"] = "e2b04e90ff648f8e00d9d4d458de59d9",
+      modules = {
+         ["api.trace.span_status.html"] = "e27a4bc0e75af29ec652e33345355721",
+         ["opentelemetry.html"] = "c412471d4819a5c1895332b88064d103"
+      }
+   },
+   lua = {
+      opentelemetry = {
+         api = {
+            trace = {
+               ["span_status.lua"] = "68d1c9190ad97e5799bf1d9d095f4f11"
+            }
+         },
+         ["attribute.lua"] = "317d65f6579c7abbdfc398852e17ad57",
+         baggage = {
+            propagation = {
+               text_map = {
+                  ["baggage_propagator.lua"] = "c885564c20e0a2b901c81df8beb9975b"
+               }
+            }
+         },
+         ["baggage.lua"] = "5e01c362f72a157dbe6a4a44b4379d55",
+         ["context.lua"] = "e92c7cbe529b40037f5e85a5ba8c4077",
+         ["global.lua"] = "feeb9f5e6d8f8d668f069c4c223769c5",
+         ["instrumentation_library.lua"] = "115c1916e3ba36216133453efd6ddcd8",
+         ["metrics_reporter.lua"] = "c674f35b5c7b78efc255faf5b958bf64",
+         ["resource.lua"] = "1f91b9add98b997cc504ef4709f71078",
+         trace = {
+            ["batch_span_processor.lua"] = "457ee66a7b199922d70aac155d86c245",
+            ["event.lua"] = "d505318a3a57683a1696334396bdc175",
+            exporter = {
+               ["circuit.lua"] = "1311424637cc12a51923a4d03c787b6d",
+               ["console.lua"] = "9a111e5a13a3ddbb8e8c33b65baa2695",
+               ["encoder.lua"] = "29214810cfe0495a5b591e1b12b1f2d7",
+               ["http_client.lua"] = "c383de25d3d40eb4f492c905340a5236",
+               ["otlp.lua"] = "a0d81da922b1afcd96baeed6e2b87544",
+               ["pb.lua"] = "8608a122f95a972667abfd41ffff9c3b"
+            },
+            ["id_generator.lua"] = "9c55d8d3d53309a6f8ad9986f8691bc4",
+            ["non_recording_span.lua"] = "f7e77049c42ed1df0a5bfa9c9b970853",
+            ["noop_span.lua"] = "fd5de914a18e469aee640f5e72b1cd10",
+            propagation = {
+               text_map = {
+                  ["composite_propagator.lua"] = "7ea95a0f7609dbec318c80863fb9bc12",
+                  ["getter.lua"] = "2560a10c833f53cf09a735f91771b67b",
+                  ["noop_propagator.lua"] = "a6d098f317239b23407e76ae5788d210",
+                  ["setter.lua"] = "eda1b931bff3f78228add08c8fdcbc5a",
+                  ["trace_context_propagator.lua"] = "ef80c44e9fb7ac1c5a086b4635ea13f2"
+               }
+            },
+            ["recording_span.lua"] = "48c9901a7f68d9b8fdaf0d70b3a6a2b6",
+            sampling = {
+               ["always_off_sampler.lua"] = "259c18e34e8a30d6c692d652bb637407",
+               ["always_on_sampler.lua"] = "e384434bb236b88a0fb758226cbb8650",
+               ["parent_base_sampler.lua"] = "ffa5154dfbe636c7a115ddc1f153db46",
+               ["result.lua"] = "0a0bc15006f9065f2387b64724f04efd",
+               ["trace_id_ratio_sampler.lua"] = "8b836a48a2cffcce2107ef580c6e5d7f"
+            },
+            ["simple_span_processor.lua"] = "984391a56602018e20edae5cc4dec9a2",
+            ["span_context.lua"] = "4ca1a49227a035e3724adab9a14428d6",
+            ["span_kind.lua"] = "2bbbaf7bd558c9cf1a2dbfe2ab19222a",
+            ["span_status.lua"] = "93c855667a2497d718cd26e526344a4a",
+            ["tracer.lua"] = "ae6f6d84cacf30bd3745ec6384df8b85",
+            ["tracer_provider.lua"] = "7168290128cc90b47fa0799c875d304d",
+            ["tracestate.lua"] = "10ceb34b98d9b66e495e395df2fcd84a"
+         },
+         ["util.lua"] = "4c594687fbe227d2cf40512c57656553"
+      }
+   },
+   ["opentelemetry-lua-0.2-3.rockspec"] = "ef69f3a46bc7624cfb899009284218df"
+}

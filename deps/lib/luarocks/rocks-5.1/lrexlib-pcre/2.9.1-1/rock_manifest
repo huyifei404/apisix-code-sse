@@ -1,0 +1,13 @@
+rock_manifest = {
+   doc = {
+      ["SciTE.properties"] = "f5c63c49ad6bdae839da3bd49bce0e17",
+      ["html4css1.css"] = "97b0e5d6ed6a479df4555d1950a4a1df",
+      ["license.html"] = "cc819369f4a90492144d14d319641570",
+      ["lrexlib.css"] = "f15be50ea8bbc23c100a78a29214b777",
+      ["manual.txt"] = "ff3180790f1087e7be231e147cef77f1"
+   },
+   lib = {
+      ["rex_pcre.so"] = "303c3ba7b2434db076234594a44420b6"
+   },
+   ["lrexlib-pcre-2.9.1-1.rockspec"] = "8bf832d3bcb73c3c971e857f78ec0337"
+}

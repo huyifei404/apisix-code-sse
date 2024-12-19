@@ -1,0 +1,18 @@
+rock_manifest = {
+   doc = {
+      ["README.markdown"] = "9687d10d350c958d441812394bb97177"
+   },
+   lib = {
+      ["librestychash.so"] = "304e8f0ae173625296d150fdecbdb417"
+   },
+   lua = {
+      resty = {
+         balancer = {
+            ["utils.lua"] = "c73fc0cce8d1becc11e86a3915f2db63"
+         },
+         ["chash.lua"] = "62b6b9c5b3b81b964a7ab4bc409aebe6",
+         ["roundrobin.lua"] = "504b2f16138e4534a635f04a9c842f4d"
+      }
+   },
+   ["lua-resty-balancer-0.04-0.rockspec"] = "42fcf45447baec27ad929e2b8797f754"
+}

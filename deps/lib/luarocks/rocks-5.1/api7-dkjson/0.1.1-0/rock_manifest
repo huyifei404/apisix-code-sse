@@ -1,0 +1,10 @@
+rock_manifest = {
+   ["api7-dkjson-0.1.1-0.rockspec"] = "272973fac1ddf0ac5e0b0822c66b34c5",
+   doc = {
+      LICENSE = "1bd827da8c025bf2a9986aaf10569502",
+      ["README.md"] = "f95f0aa27636144d2da006948ba2ab91"
+   },
+   lua = {
+      ["dkjson.lua"] = "a6429d0fcae5ab7baefd746e430facf2"
+   }
+}

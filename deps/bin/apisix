@@ -1,0 +1,3 @@
+#!/bin/sh
+
+LUAROCKS_SYSCONFDIR='/usr/local/etc/luarocks' exec '/usr/bin/lua' -e 'package.path="/tmp/apisix/usr/local/apisix/deps/share/lua/5.1/?.lua;/tmp/apisix/usr/local/apisix/deps/share/lua/5.1/?/init.lua;"..package.path;package.cpath="/tmp/apisix/usr/local/apisix/deps/lib/lua/5.1/?.so;"..package.cpath;local k,l,_=pcall(require,"luarocks.loader") _=k and l.add_context("apisix","2.2-0")' '/tmp/apisix/usr/local/apisix/deps/lib/luarocks/rocks-5.1/apisix/2.2-0/bin/apisix' "$@"

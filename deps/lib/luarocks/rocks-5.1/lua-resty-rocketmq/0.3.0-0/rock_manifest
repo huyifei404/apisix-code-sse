@@ -1,0 +1,22 @@
+rock_manifest = {
+   doc = {
+      LICENSE = "475ec1fab52fa43c0f5804c0230541a7",
+      ["README.md"] = "22a8602f5b517f21d5a6104207145b6e"
+   },
+   lua = {
+      resty = {
+         rocketmq = {
+            ["acl_rpchook.lua"] = "7b2cb3db5c9609ce61aa39c063ccf007",
+            ["admin.lua"] = "43904f4e88fface403d7e20acdce8958",
+            ["client.lua"] = "4e16ab385d3549b589fabe69cde0e822",
+            ["core.lua"] = "02e1c727531ad76755037884d36afc26",
+            ["json.lua"] = "f6aad1ff14fe64b3a195b1199d82b994",
+            ["producer.lua"] = "29e191b6a1f315bc8dac56e26f08a6ce",
+            ["queue.lua"] = "244c64aba1591d33eae795ce328a0a3d",
+            ["trace.lua"] = "1513b34b483c5455589e361ba3a83a9d",
+            ["utils.lua"] = "aa11589e26e087bb43a03a9909e91871"
+         }
+      }
+   },
+   ["lua-resty-rocketmq-0.3.0-0.rockspec"] = "18352854eec0a06483a93265e70e472d"
+}

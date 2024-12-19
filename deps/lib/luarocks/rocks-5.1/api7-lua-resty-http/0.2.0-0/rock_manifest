@@ -1,0 +1,14 @@
+rock_manifest = {
+   ["api7-lua-resty-http-0.2.0-0.rockspec"] = "4b109bd1f2fb01892c532148fe65234d",
+   doc = {
+      LICENSE = "552f8cec37e0043674a5eee6f87bd5bc",
+      ["README.md"] = "bc7c230a13d13a90e3f634bd026976fa"
+   },
+   lua = {
+      resty = {
+         ["http.lua"] = "50902c3aca69af8db0485ec7e952f931",
+         ["http_connect.lua"] = "be66baf49793ee71d491dfda87cb904e",
+         ["http_headers.lua"] = "f08e4a2d4cda0308b6db6a086080922a"
+      }
+   }
+}

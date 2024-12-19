@@ -1,0 +1,10 @@
+rock_manifest = {
+   ["api7-snowflake-2.0-1.rockspec"] = "a0d4a3aae3dcb4a692ff9f474539f363",
+   doc = {
+      ["LICENSE.md"] = "1b4060a7813bcb5644b1428341ecad70",
+      ["README.md"] = "45e27b80b62f361812245b8a1d103eb4"
+   },
+   lib = {
+      ["snowflake.so"] = "96d63ed59823d7c43b6e6d9caf0a4432"
+   }
+}

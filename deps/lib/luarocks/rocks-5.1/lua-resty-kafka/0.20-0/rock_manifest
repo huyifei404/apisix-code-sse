@@ -1,0 +1,29 @@
+rock_manifest = {
+   doc = {
+      LICENSE = "0974006d6d5c1ea5a5836ccb3b144d64",
+      ["README.md"] = "b449d0f4bb65bfdd6a32a33c2b975334"
+   },
+   lua = {
+      resty = {
+         kafka = {
+            ["basic-consumer.lua"] = "a53ecc5cad94257f2dc15d52e4837c9e",
+            ["broker.lua"] = "cf253a178e9ae74301b51477d2bfbd8a",
+            ["client.lua"] = "365bc188b3073012df2195f7572baee2",
+            ["errors.lua"] = "386f403977fc627d473e586deb722fa0",
+            ["producer.lua"] = "f6b5b8ce30dab1f6122cd2adab58ee44",
+            protocol = {
+               ["common.lua"] = "1bf9a384ce5d6cf5cc5640c5a01fdc89",
+               ["consumer.lua"] = "39e143e6a2e4ebdaf4ad1949f065898e",
+               ["record.lua"] = "ac7a545fa318ace0bd05b75a2fd123b0"
+            },
+            ["request.lua"] = "2c75cdb0f83d83fa27612f38a925af68",
+            ["response.lua"] = "e5f22c0135c87a4c258db81f2d1bfd2d",
+            ["ringbuffer.lua"] = "144345060570b79785379cd2ac364a68",
+            ["sasl.lua"] = "3c5195a54fe0e68c988947be5426cace",
+            ["sendbuffer.lua"] = "cc478ddaafb842c4f219b58bcdc4d10d",
+            ["utils.lua"] = "a3d5dd400f7ab12cf241612b5eb650ce"
+         }
+      }
+   },
+   ["lua-resty-kafka-0.20-0.rockspec"] = "ba4e1e43157af08e3ef75f8f77ce9458"
+}

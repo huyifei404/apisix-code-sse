@@ -1,0 +1,18 @@
+rock_manifest = {
+   docs = {
+      ["contributors.md"] = "ba4dd972027543ea8c7395e7f19e9e01",
+      ["index.md"] = "da03ef3fef6c0f43151cc50b1afb98b7",
+      ["license.md"] = "cbed127564d6dc42ff255295cfe62634",
+      logo = {
+         LICENSE = "96f5abbbeefda90aeb47d974d8f1af41",
+         ["lualdap-logo-512x512.png"] = "4dfda6533783429063134463bac85d0a",
+         ["lualdap-logo.ps"] = "9fba583769069992d05d6cacfaa566bb"
+      },
+      ["manual.md"] = "571f65f0020291d69a71bb05b849216d",
+      ["news.md"] = "4fe04271b415f7bc183ff77626c5018e"
+   },
+   lib = {
+      ["lualdap.so"] = "83a6b925388eec49aaef18041e356e13"
+   },
+   ["lualdap-1.2.6-1.rockspec"] = "4274547b1a67bb4d6de455ce890cfcf2"
+}

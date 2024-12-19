@@ -1,0 +1,358 @@
+rock_manifest = {
+   ["apisix-master-0.rockspec"] = "56675fa9eb86707cbeafae15f8dcec38",
+   bin = {
+      apisix = "517556f5f357d725c9923fcd0a447bae"
+   },
+   doc = {
+      ["CHANGELOG.md"] = "158b8d87fbe9c8205210a3c5548caae4",
+      ["CODE_OF_CONDUCT.md"] = "32377b77bf81fe32519cf4b3157b43e3",
+      ["CODE_STYLE.md"] = "e2f7fd411bb4fd0657d80a3284fb1a68",
+      ["CONTRIBUTING.md"] = "2feb5862bd6829306ed3fcfbcb500a78",
+      LICENSE = "b4ff9c1c4d200dd66db0041bc66cf187",
+      ["MAINTAIN.md"] = "ff832c0e096cefc0cb99314b3e6db846",
+      ["README.md"] = "536a96ea33708c4e6a2c9808124b4262",
+      ["THREAT_MODEL.md"] = "4211367b455a0500df701ce98443df55",
+      ["Vision-and-Milestones.md"] = "7ffb1476b79f27b86f30950ecd1f90af",
+      ["powered-by.md"] = "e49c744b375c75c4428690a7a88c44b5"
+   },
+   lua = {
+      apisix = {
+         admin = {
+            ["consumer_group.lua"] = "55e9f08b0e78b11a1d3df56c0f195a2a",
+            ["consumers.lua"] = "d43d032d002c9737542bb65abe3ee739",
+            ["global_rules.lua"] = "6b505a81148418da304feba36221e7dc",
+            ["init.lua"] = "7ec1fec4a433d744dd876bd3dbe0579b",
+            ["plugin_config.lua"] = "178358cebda48d94ccb3f6c6771c00fd",
+            ["plugin_metadata.lua"] = "f5ad23d404ab8f9b710c56722f0a1f0c",
+            ["plugins.lua"] = "7b9e53a7d5bae541287f570857af34aa",
+            ["proto.lua"] = "a0288fbe5b3470956ef2b2f9256edc27",
+            ["resource.lua"] = "8a77e33ecdc6e0089fde827b96c4df83",
+            ["routes.lua"] = "944a0d57378765fcfc52d3fcb0a92a54",
+            ["schema.lua"] = "3b0090615c8325b5c6a32e9c3e21aa57",
+            ["secrets.lua"] = "b2a2740d8f42ccf981ebc6fab08e3829",
+            ["services.lua"] = "d13fff84057575f19cd1dc743a93a3b7",
+            ["ssl.lua"] = "6c0cd02ef9dea279237726b8e41d7257",
+            ["stream_routes.lua"] = "44c1b2fe16e64a28042a1ef20e6e4e5b",
+            ["upstreams.lua"] = "9e53863a94bed621fae6f1d1dee7c4de",
+            ["utils.lua"] = "887f4eee01621b5e4628cb5d9d6b7a74",
+            ["v3_adapter.lua"] = "604981dc02fd375eb9e422499ede9794"
+         },
+         ["api_router.lua"] = "2d38149e7bcdf95c023f46246de1a761",
+         balancer = {
+            ["chash.lua"] = "d0652b3f6926d041e779628cebd60714",
+            ["ewma.lua"] = "b5a74d057febcce52505cab1e40f2959",
+            ["least_conn.lua"] = "ba07cd64b9a26a73ae14945e13a5a248",
+            ["priority.lua"] = "a82d58adf7866e59aae985208a5cde7c",
+            ["roundrobin.lua"] = "57d7c72fe1c9ef30784deb6a78b76984"
+         },
+         ["balancer.lua"] = "cf3d13d34771b4bdfcbb975897c778bf",
+         cli = {
+            ["apisix.lua"] = "d8e6186596e20a1982fe0cb098ed51d8",
+            ["env.lua"] = "aafc4b9f07872673fa9c871cee60c41e",
+            ["etcd.lua"] = "3bfc644252980fd4b630a22e9add988b",
+            ["file.lua"] = "5507ad18744fb2c9fc0588c14d5824c4",
+            ["ip.lua"] = "6442752be0db8ae6887a562d18ace58d",
+            ["ngx_tpl.lua"] = "9041369f4a781a4668cbdd14e4bd430e",
+            ["ops.lua"] = "2a54dda946e1d99f0e778078b9b04b90",
+            ["schema.lua"] = "f27ae9fad0434e21cb7610928b3c0a2e",
+            ["snippet.lua"] = "44782bda932ee139c2c26ab501cbd9f7",
+            ["util.lua"] = "1131c9b50a8d9eb16516a9cecfaa6ee5"
+         },
+         ["conf_server.lua"] = "838cb04a2cf4fc2ef9978370af86a8b8",
+         ["constants.lua"] = "1c23d2a833bcaa97fa7aca1f202c7980",
+         ["consumer.lua"] = "3880a43cdaa403ecac65315401ace59e",
+         ["consumer_group.lua"] = "3827ac053f2150e502649f464d1d162a",
+         control = {
+            ["router.lua"] = "cf175264a423ef2bc19e5d38148ee0da",
+            ["v1.lua"] = "8456ed39692a30230fb3ace93dcbdbf1"
+         },
+         core = {
+            ["config_etcd.lua"] = "cfed2738fa168a82cba07344d8275f57",
+            ["config_local.lua"] = "029bd2d356e8ddd3eb05fbdc9f497816",
+            ["config_util.lua"] = "63ede79cae76e83d6371b14d396d2693",
+            ["config_xds.lua"] = "f4819f83555911ac2b590b4f0c339d33",
+            ["config_yaml.lua"] = "710afc79199a6c5f0412724db54c2dbb",
+            ["ctx.lua"] = "f2b62ea9f06c7f64df71c8fd60663a55",
+            dns = {
+               ["client.lua"] = "8394e4ba9072213bce314b089a653543"
+            },
+            ["env.lua"] = "7b87f0a2d5386acdfd2c2a8ee130dac7",
+            ["etcd.lua"] = "c39ce8f31758da7c16e5d8230034d269",
+            ["event.lua"] = "dd9ddd5d1d20e60bd376b7e31a739c13",
+            ["grpc.lua"] = "3739269dff4da8359f6c8eefab3d3347",
+            ["id.lua"] = "18785b1841a7bc79b2978425cfb726a7",
+            ["io.lua"] = "b2ae80a5046d49b23ccc4c2706c034dd",
+            ["ip.lua"] = "ada2b82a0385a1e00daa9fb518410886",
+            ["json.lua"] = "7ce421e6fa5990c5736f3788fe73d9e5",
+            ["log.lua"] = "166f5d4d8a86a89009982a42917633f2",
+            ["lrucache.lua"] = "56dc2411e7cdfe8dce5363e477f41b60",
+            ["math.lua"] = "18267b78cf99def2225332e361bb67f0",
+            ["os.lua"] = "b686b2857ea811f487b5f26b7b7d8185",
+            ["profile.lua"] = "e04e828a515bb9ab61f1415a37c57cfa",
+            ["pubsub.lua"] = "48cdd47d91cd5d30054eb68937ebb66c",
+            ["request.lua"] = "813a5ae783ff61ac61c27c9b715bbd7b",
+            ["resolver.lua"] = "f4fa02e098267c66584c245a54936646",
+            ["response.lua"] = "5bf2ac3b3384c7c13943bc86565a7b6c",
+            ["schema.lua"] = "3845375f43d78878036e7dddea908318",
+            ["string.lua"] = "1f9ce691bd18dbc9e5b695c3513eecd2",
+            ["table.lua"] = "9d6e21a1118730e642e92bf92cfe05c0",
+            ["timer.lua"] = "e9bb974d4287fae4337610e9c2342324",
+            ["utils.lua"] = "2483c5421616d89b337425ad1f064cb4",
+            ["version.lua"] = "ffce6accaa969b1e7b78882fa79228d1"
+         },
+         ["core.lua"] = "2ae380bd5b6311f98fb771e328735077",
+         ["debug.lua"] = "1ae857b7cc705c88ead83cbe8d673cac",
+         discovery = {
+            consul = {
+               ["init.lua"] = "586b9ac8f54fb38cf5629dc04cae0254",
+               ["schema.lua"] = "8e8754c84bb62e772a0281b933a07ad3"
+            },
+            consul_kv = {
+               ["init.lua"] = "dc3750a0869279a26c7615208a88848e",
+               ["schema.lua"] = "425b90f212425821fdbd04ef0181acd6"
+            },
+            dns = {
+               ["init.lua"] = "0666ccdd916c30cebad8c6f554826214",
+               ["schema.lua"] = "dd66e76bfed1c2edead135aef1a2ea51"
+            },
+            eureka = {
+               ["init.lua"] = "6d2fe5597c721490a4622521a2c69ff6",
+               ["schema.lua"] = "0c5d8213a38a8fcd8206cf44bf957f27"
+            },
+            ["init.lua"] = "ceb9fd71c28ab403865f52a8d309a4fb",
+            kubernetes = {
+               ["informer_factory.lua"] = "f8135631ffc21f6791040255c73ad864",
+               ["init.lua"] = "f066860dc409bc19ab8a905e891e8bfc",
+               ["schema.lua"] = "b8aaf462d7e511ec135eaca306aa398d"
+            },
+            nacos = {
+               ["init.lua"] = "6d1218327aa1ec6d7e9c2d3e8b332139",
+               ["schema.lua"] = "349133f7c79f4a8ea3dcf269a5401a19"
+            },
+            tars = {
+               ["init.lua"] = "3229d0de74223e34c6dbe2eaa5d71b97",
+               ["schema.lua"] = "db3ed510c62bfbfd3d7d246e752b3ef9"
+            }
+         },
+         ["error_handling.lua"] = "a9540c97581666c451ad08f572000377",
+         http = {
+            ["route.lua"] = "62a16792e6cc2f2998ced6d5100a436a",
+            router = {
+               ["radixtree_host_uri.lua"] = "585750f589edaa48e3f0fae8f8a98c54",
+               ["radixtree_uri.lua"] = "6a7ffe0bb4b4627221f84fc5af9cd312",
+               ["radixtree_uri_with_parameter.lua"] = "88b2976f677a6c246cdf96e0610f6fe2"
+            },
+            ["service.lua"] = "4fb7be11917f2f6d7ad8a31747e78ec6"
+         },
+         include = {
+            apisix = {
+               model = {
+                  ["pubsub.proto"] = "c9d6d1e86f76bd4ff8050aec1691269b"
+               }
+            }
+         },
+         ["init.lua"] = "dbe18305a610f29f723bc7fb7b32d188",
+         inspect = {
+            ["dbg.lua"] = "1e8bfc0f7de2a47b0391bf95b9cb9d91",
+            ["init.lua"] = "b8af5a37c3db322a5231564acb4eebd4"
+         },
+         ["patch.lua"] = "16889bdfb934eb514b17b9172319d54b",
+         ["plugin.lua"] = "4f1370093ce9ddc7e266403246d5e0a4",
+         ["plugin_config.lua"] = "af1848588380269e8f644f9c2510483b",
+         plugins = {
+            ["ai.lua"] = "fa39dcf6c262c2bd211bb3ad3d93a6bb",
+            ["api-breaker.lua"] = "3d22a8f3c998a576e9311412801fc852",
+            ["authz-casbin.lua"] = "b1427f5bb40a37878a5045fb318c39b1",
+            ["authz-casdoor.lua"] = "b0d1833cfc1b0f7faa5c0918c9618272",
+            ["authz-keycloak.lua"] = "8bdb4341c5e2d209128ed3990ea6c4df",
+            ["aws-lambda.lua"] = "514f5b64fda95b1a01e68b569aed0351",
+            ["azure-functions.lua"] = "2b91559ee255cf24fae4f43752add865",
+            ["basic-auth.lua"] = "b2eaa0df2f72d02f12b9e870e2d68ae5",
+            ["batch-requests.lua"] = "77a5069ebf14581e4a8c870b478a5ca4",
+            ["body-transformer.lua"] = "d557efa112ec17cce7a262c43f540aed",
+            ["cas-auth.lua"] = "f8b209c982cb88619a02992ab3f4c3ac",
+            ["clickhouse-logger.lua"] = "098dde5f7fa87c4862b71d742fecc952",
+            ["client-control.lua"] = "bf2231283cc9ee39c5b63ec900991b52",
+            ["consumer-restriction.lua"] = "33ec9481c5e46be6a02686b9116c910f",
+            ["cors.lua"] = "53b68be2c03dd5c46f32206b6b2f3931",
+            ["csrf.lua"] = "9352a20b06f51fb1b06bd1bad7972877",
+            ["datadog.lua"] = "5e4da1a01fce2809840cf159a2cb8451",
+            ["degraphql.lua"] = "39c9bb90f41c299590484aa05d576ed1",
+            ["dubbo-proxy.lua"] = "44ec87d5a24824dbcc3deb985e130c3e",
+            ["echo.lua"] = "75a99b9c213f3376fa783678851266c3",
+            ["elasticsearch-logger.lua"] = "9f93fe0d7f44e3021335c23f0826df93",
+            ["error-log-logger.lua"] = "f31facdeeb84455ddb51494d62022be5",
+            ["example-plugin.lua"] = "c6e84c50358cb3c701dcbc751824e78e",
+            ["ext-plugin"] = {
+               ["helper.lua"] = "2f0b6c08611dfbd66e6f13f9149c78ed",
+               ["init.lua"] = "26f2504a26d95dc7189dfe4ef2ecd434"
+            },
+            ["ext-plugin-post-req.lua"] = "d12c66f7c2b5342507c9356a8adfb852",
+            ["ext-plugin-post-resp.lua"] = "39427d1a1d07574fa58b863b32b60a68",
+            ["ext-plugin-pre-req.lua"] = "fcdd508047ff579745e5d857b144224d",
+            ["fault-injection.lua"] = "b396320d2daa4d5a4c6a0229da003261",
+            ["file-logger.lua"] = "d526a15f8ad52232824c3a1a6cd37818",
+            ["forward-auth.lua"] = "1f6ad1992c849d82790e729270139cf3",
+            ["gm.lua"] = "5973333f2e9fced4d52bbe43d1ca77af",
+            ["google-cloud-logging"] = {
+               ["oauth.lua"] = "b5a992046865fc6bea2c7c64bc7b018b"
+            },
+            ["google-cloud-logging.lua"] = "a204f1eec2bd773a55c6a485c2914daa",
+            ["grpc-transcode"] = {
+               ["proto.lua"] = "22ea91577a0f2a19bb64feced78de2c7",
+               ["request.lua"] = "822a76fb47def03b3c0cb0e63692994a",
+               ["response.lua"] = "fd0af7915c759f61c964a73f396493fd",
+               ["util.lua"] = "844c4711aaa03ec4c87997b593457644"
+            },
+            ["grpc-transcode.lua"] = "f254e284b1c189b9f35ab720cc62c8a1",
+            ["grpc-web.lua"] = "df9d4c2f502e2aca546604e97cc0d3be",
+            ["gzip.lua"] = "7328613681b8bca6dfe5c64690f8732d",
+            ["hmac-auth.lua"] = "5b98ad0c5fc84aaf3499a46fe3626757",
+            ["http-logger.lua"] = "82e7e5f9599fc76631179d4646e1072e",
+            ["inspect.lua"] = "438bfb23cd4931052188686656bfd95d",
+            ["ip-restriction"] = {
+               ["init.lua"] = "6b38ff4c94f7eeb654147709a9768b16"
+            },
+            ["ip-restriction.lua"] = "cd4e672d8e868f43f4f176f3ba500617",
+            ["jwt-auth.lua"] = "767947b3761bb84a695acad39427193c",
+            ["kafka-logger.lua"] = "1c4675ae266b2e24894313ac09787bb4",
+            ["kafka-proxy.lua"] = "7574127d5473d702242693bf2469d472",
+            ["key-auth.lua"] = "04f0577d6cc953f98eb4376cefbe2203",
+            ["ldap-auth.lua"] = "8118826741600c7f53abe73a154fd0e6",
+            ["limit-conn"] = {
+               ["init.lua"] = "b2688f4d4474337fcc30c678b966e45d"
+            },
+            ["limit-conn.lua"] = "3d55acf8767ff77c153a3ad58569310a",
+            ["limit-count"] = {
+               ["init.lua"] = "8c7fcb62f91ee4d17faf3950f19cdaff",
+               ["limit-count-local.lua"] = "d158fdb653fb2a7a5eb79f96d4252b06",
+               ["limit-count-redis-cluster.lua"] = "76ca00f497b2e2cdcf8f27b30b006c5c",
+               ["limit-count-redis.lua"] = "2462dddfa7333e50ec128a2dc65a5d66"
+            },
+            ["limit-count.lua"] = "1e85223b7042117d6e371ef40fa52d58",
+            ["limit-req.lua"] = "65c2767a84521aabf3f6639072d22697",
+            ["log-rotate.lua"] = "98d2d56b460f249fe1ce9d193c12aee7",
+            ["loggly.lua"] = "8a68cb961efc8eebbda54528d6f327b2",
+            ["mocking.lua"] = "9b1cf2a1b852546099df10bfca9ba528",
+            ["node-status.lua"] = "911805c6b8f17aeaf03883681fa8af7f",
+            opa = {
+               ["helper.lua"] = "e3181eeaa0055d0194f95f95a9893119"
+            },
+            ["opa.lua"] = "fd9ebdb2b321fe1bf29dc812fd9736df",
+            ["openfunction.lua"] = "bb27e31697ae00afb6348f45e67b7dfb",
+            ["openid-connect.lua"] = "5b61a5f61d7023d5ceecaa44eabd422a",
+            ["opentelemetry.lua"] = "ba2b3bde74844904abce4f2e0cc206f5",
+            ["openwhisk.lua"] = "f4876320fbd6d8372ed33e80d4543647",
+            prometheus = {
+               ["exporter.lua"] = "53df997d48db46e19c4c78a0e0b294fc"
+            },
+            ["prometheus.lua"] = "bf70cceeb9b1e5b8a7df9b5b9606da12",
+            ["proxy-cache"] = {
+               ["disk_handler.lua"] = "aebcc1b43f0988c7314eb999724a9772",
+               ["init.lua"] = "33bedd62e2b0f06e14c7d168bea7969e",
+               ["memory.lua"] = "3c53f6cac10f0743cd150dd95ac4a688",
+               ["memory_handler.lua"] = "c98e3d134d13cd9e3146ec6272a6fcde",
+               ["util.lua"] = "ab2069c90a39d89137c62ba02fa994a2"
+            },
+            ["proxy-control.lua"] = "80a687ba09da2b861e553a5f086287a4",
+            ["proxy-mirror.lua"] = "c96c1fbe250df05c4e949b12703ab014",
+            ["proxy-rewrite.lua"] = "c5f143f374d765154470f5451ec3a943",
+            ["public-api.lua"] = "c98908021a464ff23f301e6e8e863cb6",
+            ["real-ip.lua"] = "8e7cf210a8589e6ada0aa4bb1f5a5f5f",
+            ["redirect.lua"] = "c4a87367ee5d77072f62ab812bd38508",
+            ["referer-restriction.lua"] = "66b3e99a090aaf9d809c946861aaf398",
+            ["request-id.lua"] = "9419e3014ecd47bdc27530b5a03b17fe",
+            ["request-validation.lua"] = "99cd6c4f7fc34033b32b39264465540d",
+            ["response-rewrite.lua"] = "610425ce977527ac0a5b5b08989347ea",
+            ["rocketmq-logger.lua"] = "b9c14ab1244ebb7aa879da373abf89a5",
+            ["server-info.lua"] = "03118f30e385a2c3345a42f3e9f8185d",
+            serverless = {
+               ["generic-upstream.lua"] = "bba2bf7c0b2bc2bb0f65b47ebf49526a",
+               ["init.lua"] = "2cfaebb22c135ee4c52d362f2241fc50"
+            },
+            ["serverless-post-function.lua"] = "cae602891c95b6a89fffde01a8666180",
+            ["serverless-pre-function.lua"] = "7551a60a91bb18cfc6ac592fba9d31b8",
+            ["skywalking-logger.lua"] = "db116acae2012a649d0122c48214f4b4",
+            ["skywalking.lua"] = "e5dedbf10408dabe179b0fd8f4119298",
+            ["sls-logger.lua"] = "cb19ef6efd82e64ec51ad496e5b115e1",
+            slslog = {
+               ["rfc5424.lua"] = "a010618a3ceebcbacc1d4817e28c3384"
+            },
+            ["splunk-hec-logging.lua"] = "0f85c8a8c8f2aeb33827ea7d719bc8c0",
+            syslog = {
+               ["init.lua"] = "b1b064799832d68f5048bc410fbd2bde"
+            },
+            ["syslog.lua"] = "768240991406192d705f511bc4f3e466",
+            ["tcp-logger.lua"] = "913a4f6f8c869be95a149df6fe7626ee",
+            ["tencent-cloud-cls"] = {
+               ["cls-sdk.lua"] = "4c354a90f6c5eb8dbbcd4125d0be5153"
+            },
+            ["tencent-cloud-cls.lua"] = "5fcb0dd304a32bd4ad77ccf076764d71",
+            ["traffic-split.lua"] = "70e2a2dec5101448b6a1d2477234097a",
+            ["ua-restriction.lua"] = "39cadd7d6f14b32e4fc46ac78f95b877",
+            ["udp-logger.lua"] = "89b1b1152a22bd9720c083d287655e62",
+            ["uri-blocker.lua"] = "bc0947378063503ecdce1fcfb91eafe9",
+            ["wolf-rbac.lua"] = "11a133a1ca2298aa23c7e23d8bfc4e9f",
+            ["workflow.lua"] = "fd563823496b60f4c796106e776bb0b4",
+            zipkin = {
+               ["codec.lua"] = "acc184d30c159063c3ee895e98245e6e",
+               ["random_sampler.lua"] = "fcae10dc3086b0875ed1e7388b6a7392",
+               ["reporter.lua"] = "8ad75861b8fd30b4011169df6269cf29"
+            },
+            ["zipkin.lua"] = "b3116881d16f3d9a676f43dfc7faf557"
+         },
+         pubsub = {
+            ["kafka.lua"] = "00d50960b73796f679dbf95b9c56498c"
+         },
+         ["router.lua"] = "d6505d7a52a793fbd0428888e72b8105",
+         ["schema_def.lua"] = "1582af9e7bd4a938a95407172dcd21d0",
+         ["script.lua"] = "52f43124a5dc4727b495d2f0f402f316",
+         secret = {
+            ["vault.lua"] = "544a82223ba890d07f77c2725df01202"
+         },
+         ["secret.lua"] = "a8be91ed39ff8f0cc2a63e62b35acdcf",
+         ssl = {
+            router = {
+               ["radixtree_sni.lua"] = "93734c151b96927a5285d3511835c240"
+            }
+         },
+         ["ssl.lua"] = "712794bdcb8b0dc5e1746f80322ac642",
+         stream = {
+            plugins = {
+               ["ip-restriction.lua"] = "ca6abba25745176a66a8a675ef08723b",
+               ["limit-conn.lua"] = "40fa3aea4c197a9741f8eb515c69ca74",
+               ["mqtt-proxy.lua"] = "b88ee4240aedc5d7d0aeb0335732998d",
+               ["prometheus.lua"] = "aa3fa9c6348f9fc1e086069df4b01892",
+               ["syslog.lua"] = "bca77d52a61cd1c19c469e57c1d5d0d6"
+            },
+            router = {
+               ["ip_port.lua"] = "60491ce981ad5bb49a2b19b78982e072"
+            },
+            xrpc = {
+               ["metrics.lua"] = "fdf219f2ad9946ad5664f5c7eb42c72f",
+               protocols = {
+                  redis = {
+                     ["commands.lua"] = "180090a2ba1456bc882513f7fa057131",
+                     ["init.lua"] = "cdfcb71a188567b8377a352f3d141c08",
+                     ["metrics.lua"] = "cf9ad3549c77899220f85352fe7d69e8",
+                     ["schema.lua"] = "c278b9262113b115df819430e78b8276"
+                  }
+               },
+               ["runner.lua"] = "e2976819c90aa7825307c31d33e569f9",
+               ["sdk.lua"] = "20071b4a2e639715bf8aa7db13df2670"
+            },
+            ["xrpc.lua"] = "5af194c31a8603fdfe38c926fffbd5a8"
+         },
+         ["timers.lua"] = "69ec5049619e149ef5cfa41a58262edd",
+         ["upstream.lua"] = "fed51df9c4fb5cf6cd7a7c8ff27f834a",
+         utils = {
+            ["batch-processor-manager.lua"] = "35e0da62e7d918bfb127b12b37339be3",
+            ["batch-processor.lua"] = "9ce3041f6c93926650b79b6cc258603c",
+            ["log-util.lua"] = "26096a858c1d59d4e14c19d8653458a4",
+            ["router.lua"] = "75b30bbdaa35a0787a414501b26bcf08",
+            ["upstream.lua"] = "ea1ac9a0d412a232bcf19c2e2e5ee186"
+         },
+         ["wasm.lua"] = "b5501c49c13fd954d9a78614dcc2db20"
+      }
+   }
+}
