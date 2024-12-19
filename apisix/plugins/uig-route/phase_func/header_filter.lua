@@ -6,7 +6,7 @@ local exception_catch           = require("apisix.plugins.exception.catch").invo
 local convert_util              = require("apisix.plugins.utils.convert_util")
 local query_template            = require("apisix.plugins.dag-datasource.query_process.template_query")
 local read_conf_util            = require("apisix.plugins.utils.read_conf_util")
-local template_exec             = require("apisix.plugins.nlbpm.template_exec")
+-- local template_exec             = require("apisix.plugins.nlbpm.template_exec")
 local json_decode               = core.json.decode
 local log                       = core.log
 local emergency_log             = require("apisix.plugins.emergency-log")
@@ -46,18 +46,20 @@ local function process_resp_body(ctx, resp_body)
                         ",resp_body:",resp_body,
                         ",encoding:",last_service_encoding)
 
-    local exe_out, err_tab = template_exec.sfdl_exec(ctx,
-                                req_info.sys.process_code,
-                                resp_template_info.content,
-                                resp_template_info.template_name,
-                                resp_template_info.version_code,resp_body,last_service_encoding)
-    if not exe_out then
-        core.log.error("响应模板执行失败:" .. err_tab.msg)
-        return nil, err_tab.msg
-    end
+    -- local exe_out, err_tab = template_exec.sfdl_exec(ctx,
+    --                             req_info.sys.process_code,
+    --                             resp_template_info.content,
+    --                             resp_template_info.template_name,
+    --                             resp_template_info.version_code,resp_body,last_service_encoding)
+    -- if not exe_out then
+    --     core.log.error("响应模板执行失败:" .. err_tab.msg)
+    --     return nil, err_tab.msg
+    -- end
+    
     emergency_log.g_log(ctx,"执行响应模板成功......")
     emergency_log.g_log(ctx,"响应模板输出报文:",exe_out.body)
-    return json_decode(exe_out.body)
+    -- return json_decode(exe_out.body)
+    return "header_filter"
 end
 
 local function print_log(ctx)

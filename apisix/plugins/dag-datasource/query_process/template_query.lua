@@ -3,7 +3,7 @@ local redis             = require("apisix.plugins.dag-datasource.redis")
 local clone_tab         = require("table.clone")
 local new_tab           = require("table.new")
 local ngx_timer_at      = ngx.timer.at
-local sfdl_builder      = require("apisix.plugins.sfdl.element.builder")
+-- local sfdl_builder      = require("apisix.plugins.sfdl.element.builder")
 local fetch_local_conf  = require("apisix.core.config_local").local_conf
 local redis_util        = require("apisix.plugins.utils.redis_util")
 local read_conf_util    = require("apisix.plugins.utils.read_conf_util")
@@ -190,11 +190,11 @@ local function get_template_and_build(template_id,is_process)
     if flag or is_process then
         return template_info
     end
-    local pd,err=sfdl_builder.build(template_info.CONTENT)
-    if not pd or err then
-        core.log.error("解析模板失败,模板id:",template_id,",err:",err)
-        return nil,err
-    end
+    -- local pd,err=sfdl_builder.build(template_info.CONTENT)
+    -- if not pd or err then
+    --     core.log.error("解析模板失败,模板id:",template_id,",err:",err)
+    --     return nil,err
+    -- end
     template_info.CONTENT=pd
     return template_info
 end

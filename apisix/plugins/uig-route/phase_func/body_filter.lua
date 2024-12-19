@@ -1,6 +1,6 @@
 local core                      = require("apisix.core")
 local ngx                       = ngx
-local failed_req_record         = require("apisix.plugins.failed-req-record")
+-- local failed_req_record         = require("apisix.plugins.failed-req-record")
 local emergency_log             = require("apisix.plugins.emergency-log").g_log
 local sw8                       = require("apisix.plugins.sw-prefix")
 
@@ -15,7 +15,8 @@ function _M.invoke(conf, ctx)
     local body=ctx.req_info.dag_resp_body
     if body then
         if ngx.status == 200 then
-            failed_req_record.delete_req_record(ctx)
+            -- failed_req_record.delete_req_record(ctx)
+            core.log.error("body_filter:", "200, success")
         end
     else
         body = "系统错误，无法正常处理"

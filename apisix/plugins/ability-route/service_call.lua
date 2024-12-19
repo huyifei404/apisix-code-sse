@@ -13,7 +13,7 @@ local tab_nkeys             = require("table.nkeys")
 local tostring              = tostring
 local log                   = core.log
 local emergency_log         = require("apisix.plugins.emergency-log")
-local service_limit_util    = require("apisix.plugins.utils.service_limit_util")
+-- local service_limit_util    = require("apisix.plugins.utils.service_limit_util")
 local redis_util            = require("apisix.plugins.utils.redis_util")
 local business_switch_code      = require("apisix.plugins.utils.redis_util.business_switch")
 local new_tab               = require("table.new")
@@ -183,13 +183,13 @@ local function service_limit(ctx,service_info)
         return nil,exception_util.build_err_tab(err_type.EXCEPT_MEMDB,
                                         err_code.DAG_ERR_REDIS_INIT,"redis客户端实例化失败:"..err)
     end
-    local ok,err = service_limit_util.execute(ctx,red,service_info.CODE,service_info.CONFIG)
-    if ok == nil then
-        core.log.error("服务限流执行失败:",err)
-        return nil,exception_util.build_err_tab(err_type.EXCEPT_DAG,
-                                        err_code.DAG_ERR_SERVICE_CALL_LIMITED_FAIL,
-                                        "【NY】服务限流执行失败"..err)
-    end
+    -- local ok,err = service_limit_util.execute(ctx,red,service_info.CODE,service_info.CONFIG)
+    -- if ok == nil then
+    --     core.log.error("服务限流执行失败:",err)
+    --     return nil,exception_util.build_err_tab(err_type.EXCEPT_DAG,
+    --                                     err_code.DAG_ERR_SERVICE_CALL_LIMITED_FAIL,
+    --                                     "【NY】服务限流执行失败"..err)
+    -- end
     if not ok then
         core.log.error("服务被限流:",err)
         return nil,exception_util.build_err_tab(err_type.EXCEPT_LIMITED,
