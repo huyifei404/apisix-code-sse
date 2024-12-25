@@ -1,63 +1,256 @@
-#
-# Licensed to the Apache Software Foundation (ASF) under one or more
-# contributor license agreements.  See the NOTICE file distributed with
-# this work for additional information regarding copyright ownership.
-# The ASF licenses this file to You under the Apache License, Version 2.0
-# (the "License"); you may not use this file except in compliance with
-# the License.  You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-# If you want to set the specified configuration value, you can set the new
-# in this file. For example if you want to specify the etcd address:
-#
-# deployment:
-#   role: traditional
-#   role_traditional:
-#     config_provider: etcd
-#   etcd:
-#     host:
-#       - http://127.0.0.1:2379
-#
-# To configure via environment variables, you can use `${{VAR}}` syntax. For instance:
-#
-# deployment:
-#   role: traditional
-#   role_traditional:
-#     config_provider: etcd
-#   etcd:
-#     host:
-#       - http://${{ETCD_HOST}}:2379
-#
-# And then run `export ETCD_HOST=$your_host` before `make init`.
-#
-# If the configured environment variable can't be found, an error will be thrown.
-#
-# Also, If you want to use default value when the environment variable not set,
-# Use `${{VAR:=default_value}}` instead. For instance:
-#
-# deployment:
-#   role: traditional
-#   role_traditional:
-#     config_provider: etcd
-#   etcd:
-#     host:
-#       - http://${{ETCD_HOST:=localhost}}:2379
-#
-# This will find environment variable `ETCD_HOST` first, and if it's not exist it will use `localhost` as default value.
-#
+apisix:
+  node_listen:
+    - 9080
+  enable_admin: true
+  enable_dev_mode: true            # Sets nginx worker_processes to 1 if set to true
+  enable_reuseport: true           # Enable nginx SO_REUSEPORT switch if set to true.
+  enable_ipv6: true
+
 deployment:
   role: traditional
   role_traditional:
     config_provider: etcd
   admin:
     admin_key:
-      - name: admin
-        key: edd1c9f034335f136f87ad84b625c8f1  # using fixed API token has security risk, please update it when you deploy to production environment
-        role: admin
+      -
+        name: "admin"
+        key: edd1c9f034335f136f87ad84b625c
+        role: admin                 # admin: manage all configuration data
+        # viewer: only can view configuration data
+      -
+        name: "viewer"
+        key: 4054f7cf07e344346cd3f287985e76
+        role: viewer
+    enable_admin_cors: true         # Admin API support CORS response headers.
+    allow_admin:
+    admin_listen:                 # use a separate port
+      port: 9180                  # Specific port, which must be different from node_listen's port.
+    admin_api_version: v2         # The version of admin api, latest version is v3.
+  etcd:
+    host:
+      - "http://127.0.0.1:2379"
+    prefix: "/apisix"
+    timeout: 30
+    tls:
+      verify: false
+
+nginx_config:
+  error_log: "logs/error.log"
+  error_log_level: "info"
+  envs:                         # allow to get a list of environment variables
+    # skywalking
+    - SW_SERVICE_NAME
+    - SW_SERVICE_INSTANCE_NAME
+    - SW_COLLECT_REST_SERVICE
+    - SW_COLLECT_SERVICE
+    # paas应用名
+    - CHANNEL_NAME
+    # pod名称
+    - POD_NAME
+    # redis
+    - REDIS_SERV_LIST
+    - REDIS_PASSWORD
+    - REDIS_CONNECT_TIMEOUT
+    - REDIS_KEEPALIVE_TIMEOUT
+    - REDIS_KEEPALIVE_CONS
+    # kafka
+    - KAFKA_BROKER_LIST
+    - KAFKA_TOPIC
+    - KAFKA_TIMEOUT
+    - KAFKA_KEEPALIVE_TIMEOUT
+    - KAFKA_KEEPALIVE_SIZE
+    - KAFKA_RETRY_DELAY
+    - KAFKA_BATCH_MAX_SIZE
+    - KAFKA_BUFFER_DURATION
+    - KAFKA_INACTIVE_TIMEOUT
+    - KAFKA_MAX_RETRY_COUNT
+
+  http:
+    lua_shared_dict:
+      prometheus-metrics: 100m
+    custom_lua_shared_dict:
+      plugin-single-ability-breaker: 100m
+      shared-datamap: 50m
+      dag-redis-cluster-slot-lock: 10m
+      count-redis-cluster-slot-lock: 10m
+      failed-req-record: 100m
+
+redis:
+  policy: "single"   #可选signle和cluster,分别为单节点连接和集群连接,默认single
+  single:
+    host: "192.168.13.130:6379"
+    # host: "127.0.0.1"
+    password: "666888"
+    port: 6379
+    timeout: 15000
+    keepalive_timeout: 55000
+    keepalive_cons: 1000
+  cluster:
+    name: "apisix-redis-cluster"
+    serv_list:
+      - "127.0.0.1:7002"
+      - "127.0.0.1:7001"
+      - "127.0.0.1:7003"
+      - "127.0.0.1:7004"
+      - "127.0.0.1:7005"
+      - "127.0.0.1:7006"
+    connect_timeout: 15000
+    keepalive_timeout: 55000
+    keepalive_cons: 1000
+    auth: "passwd123"              #集群密码
+    enable_slave_read: true
+###用于限流计数和熔断计数的redis，所有渠道共用########
+count_redis:
+  policy: "cluster"   #可选signle和cluster,分别为单节点连接和集群连接,默认single
+  single:
+    host: "10.1.12.174:6379"
+    # host: "127.0.0.1"
+    # password: "123"
+    port: 6379
+    timeout: 15000
+    keepalive_timeout: 55000
+    keepalive_cons: 1000
+  cluster:
+    name: "count-redis-cluster"
+    serv_list:
+      - "127.0.0.1:8002"
+      - "127.0.0.1:8001"
+      - "127.0.0.1:8003"
+      - "127.0.0.1:8004"
+      - "127.0.0.1:8005"
+      - "127.0.0.1:8006"
+    connect_timeout: 15000
+    keepalive_timeout: 55000
+    keepalive_cons: 1000
+    auth: "passwd123"              #集群密码
+    enable_slave_read: true
+
+
+plugins:
+  #全局插件
+  # - sw-prefix                   #priority=10000 rewrite,                      log
+  # - trace-logger                #priority=9999                                log
+  # - zipkintrace-logger
+  # - prometheus                  #priority=9000                                log
+  - uig-route                   #priority=8000  rewrite,       ,header, body, log
+  # - token-auth                  #priority=2500  rewrite
+  # - ip-restriction              #priority=2499          access
+  # - tenant-auth                 #priority=2499  rewrite
+  # - tenant-restriction          #priority=2099          access
+  # - trade-permission            #priority=1500     /     access
+  #路由插件
+  # - anti-sql-injection          #priority=6000          access/
+  # - data-desensitize            #priority=5000                  header
+  # - limit-token-bucket          #priority=4002          access
+  # - limit-leaky-bucket          #priority=4001          access
+  # - single-ability-breaker      #priority=1335          access,               log
+  - ability-route               #priority=500           access, header,     , log
+  #功能插件
+  - app-service-auth            #priority=5
+  - retry-overtime              #priority=100
+  - emergency-log               #priority=10000
+  # - failed-req-record           #priority=9999
+  # - aoc-log-rotate              #priority=100   init,destory
+  # - skywalking                  #priority=-1100
+  - sw-suffix                   #priority=-1100
+
+plugin_attr:
+  aoc-log-rotate:
+    max_kept: 5
+  log-rotate:
+    interval: 3600
+    max_kept: 10
+  skywalking:
+    service_name: "APISIX"
+    service_instance_name: "APISIX_INSTANCE01"
+    endpoint_addr: "http://127.0.0.1:12800"
+  prometheus:
+    export_uri: /apisix/prometheus/metrics
+  server-info:
+    report_interval: 60
+    report_ttl: 3600
+  trace-id:
+    snowflake:
+      enable: true
+      snowflake_epoc: 1609459200000   # the starting timestamp is expressed in milliseconds
+      data_machine_bits: 12           # data machine bit, maximum 31, because Lua cannot do bit operations greater than 31
+      sequence_bits: 10               # each machine generates a maximum of (1 << sequence_bits) serial numbers per millisecond
+      data_machine_ttl: 30            # live time for data_machine in etcd (unit: second)
+      data_machine_interval: 15       # lease renewal interval in etcd (unit: second)
+
+city_group:     #地市id
+  "11": group_42
+  "12": group_22
+  "13": group_32
+  "14": group_31
+  "15": group_32
+  "16": group_32
+  "17": group_22
+  "18": group_22
+  "19": group_21
+  "20": group_11
+  "21": group_12
+  "22": group_12
+  "23": group_11
+
+ffi_enable: 1  # 0 关闭，1 开启
+
+timer_config:
+  template_query: 5  # 单位：秒
+  datamap_query: 6   # 单位：秒
+
+bpmn:
+  logLevel: "1"  # 日志等级 4：DEBUG 3：INFO 2：警告 1：错误 0：致命 必须字符串类型
+  templateMapSize: "10000"
+
+kafka:
+  broker_list:
+    - "localhost:9092"
+  topic_aoc: "aoc-log"
+  topic_zipkin: "zipkin-log"
+  key:
+  timeout: 10
+  # producer_type: async
+  broker_conf:
+    keepalive_timeout: 600000 #单位：秒长连接失效时间，默认10分钟
+    keepalive_size: 100 # 连接池大小,默认100
+    # max_buffering: 5000000
+  # config:
+  #   name: "trace-logger"  # batch processor 的唯一标识
+  #   retry_delay: 15 # 如果执行失败，则应延迟执行流程的秒数
+  #   batch_max_size: 10000 # 设置每批发送日志的最大条数，当日志条数达到设置的最大值时，会自动推送全部日志到 Kafka 服务
+  #   max_retry_count: 0 # 从处理管道中移除之前的最大重试次数
+  #   buffer_duration: 60  # 必须先处理批次中最旧条目的最长期限（以秒为单位）
+  #   inactive_timeout: 30 # 刷新缓冲区的最大时间（以秒为单位），当达到最大的刷新时间时，无论缓冲区中的日志数量是否达到设置的最大条数，也会自动将全部日志推送到 Kafka 服务
+
+# 按照日志级别要求，从上下文获取日志字段
+# trace_level等级说明：
+# level0：不记录日志
+# level1：1-17 截止到获取手机号
+# level2：1-18 截止到获取调用信息
+# level3：1-19 需要添加调用服务的请求和返回报文
+# level4：1-19 19只添加报文的请求报文，无需返回报文
+logger_config:
+  trace:
+    flag: true          # 当标识为true时，配置中级别最高。为false时，根据报文内容进行修改
+    level: 10           # trace日志等级
+
+amg_gateway:        #amg网关配置信息
+  address: http://10.1.3.82:8099/localroute/  #amg网关地址
+  timeout: 10000
+  padding_headers: false #是否开启自动头部填充，当请求不满足amg参数校验，会通过报文自动添加头部参数
+
+redis_cache_config:
+  allow_funcs:              #允许进行缓存的redis查询方法
+    - all                     #全部开启
+    # - gray_route            #服务灰度信息
+    # - template_relation     #协议模板匹配
+    # - service_detail_info   #服务详细信息（服务地址）
+    # - service_base_info     #服务基础信息
+    # - developer_app         #开发者信息
+  max_cache_count: 20000    # rediskey最大存储数量
+  ttl: 15                   # 缓存有效时间，单位：秒
+
+req_attr:
+  process_code: "process_code,processCode,apicode,x-sg-api-code"
+  app_id: "app_id,appId"

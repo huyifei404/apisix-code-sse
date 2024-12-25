@@ -1,0 +1,143 @@
+#实体信息
+dag.key.entityInfo: ENTITY:APP:{ID}:HASH
+#提供者 提供者为平台提供能力（包括能力、接口、服务）
+dag.key.applier: ENTITY:APPLIER:{ID}:HASH
+
+#能力 能力为开发者可使用的平台能力，需记录该能力对应提供者ID信息
+dag.key.ability: ENTITY:ABILITY:{ID}:HASH
+
+#开发者 开发者为应用的开发者
+dag.key.developer: ENTITY:DEVELOPER:{ID}:HASH
+
+#应用 应用为对应客户端，需记录该应用对应开发者ID信息
+dag.key.app: ENTITY:APP:{ID}:HASH
+
+#能力订阅关系 应用需要先对能力订阅之后，才可以进行调用
+dag.key.abilityRelation: RELATION:APP.{APP.ID}:PROCESS.CODE.{PROCESS.CODE}:STRING
+
+#地区分组 地市服务分组进行调用
+dag.key.cityRelation: RELATION:CITY.{CITY.ID}:GROUP:STRING
+
+#zk_path到服务的关系
+dag.key.entityRelation: RELATION:TEMPLATE.SERVICE:{ZK_PATH}:STRING
+
+#路由地址映射缓存
+#其中 {CUSTOM.KEY.ADDRESSTYPE} 可能是一个或多个业务参数拼接成的一个字符串。需要业务代码里控制
+dag.key.routeAddressMapping: ROUTE:{SERVICE.CODE}:{CUSTOM.KEY.ADDRESSTYPE}:HASH
+
+#服务根据地市拼接path配置
+# key: ENABLE     value: 0开启path拼接，1关闭path拼接
+# key: CITY_IDS   value: 12，13，14，15
+dag.key.routePathConcat: ROUTE:{SERVICE.CODE}:PATH.CONCAT:HASH
+
+#计数器
+#dag.key.counter: COUNTER:TURNOVER.QUERY:{REQUEST.ID}:STRING
+dag.key.counter: COUNTER:{PROCESS.CODE}:{REQUEST.ID}:STRING
+
+#令牌桶限流信息
+dag.key.limitInfo: LIMIT:{PROCESS.CODE}:TOKEN.LIMIT:HASH
+
+#漏桶限流
+dag.key.limitLeakyBucket: LIMIT:{PROCESS.CODE}:LEAKY.BUCKET:HASH
+
+#服务维度漏桶限流
+dag.key.service.limit.leaky: LIMIT:SERVICE:{CUSTOM.KEY}:LEAKY.BUCKET:HASH
+#服务维度令牌桶限流
+dag.key.service.limit.token: LIMIT:SERVICE:{CUSTOM.KEY}:TOKEN.BUCKET:HASH
+
+#协议模板（报文适配）
+#针对apisix的服务调用，请求模版、返回模版、错误模版，实际保存在etcd中，加载在服务的缓存中使用。redis根据查询条件存储对应模版ID，使用HASH类型数据
+#其中，hash结构的hk hv如：{ID:"{ID}",CODE:"{CODE}",CONTENT:"{xml格式}",TYPE:"{TYPE}",ENCODING:"{ENCODING}"}
+#其中，TYPE:"{TYPE}" 值是在 请求REQUEST 返回RESPONSE 错误ERROR 编排PROCESS 四者中选择一个
+dag.key.template: MODEL:TEMPLATE:{ID}:HASH
+
+#针对协议格式转换模版的判定可能根据SERVICENAME，CITYID，APPID等组合完成，将查询条件作为KEY，对应模版的ID作为VALUE，使用HASH类型数据
+#如: {REQUEST: "{TEMPLATE.ID}", RESPONSE:"{TEMPLATE.ID}", ERROR: "{TEMPLATE.ID}"}
+dag.key.protocolTemplateRelation: RELATION:PROTOCOL.TEMPLATE:{APP_ID.REQ_CODE}:HASH
+
+#针对编排模板，短流程调用引擎使用相同策略，存储在REDIS，引擎服务加载到缓存中进行使用。调用时根据能力及报文内容，使用不用ID的模板。
+#使用STRING类型数据。如 SET RELATION:PROCESS.TEMPLATE:{SERVICENAME}:STRING “{TEMPLATE.ID}”
+dag.key.processTemplateRelation:  RELATION:PROCESS.TEMPLATE:{SERVICENAME}:STRING
+
+#对于apisix对模板的解析需要一个版本号，做为apisix是否需要重新解析模板的标识。针对每个模板指定一个版本号，每次模板进行新增或者修改的时候，将对版本号进行修改。使用SORTEDSET类型数据
+# value如："{SCORE}"{TEMPLATE.ID}
+dag.key.templateVersion: VERSION:TEMPLATE:SORTEDSET
+
+#Token
+dag.key.token: TOKEN:{TOKEN}:STRING
+
+#字典翻译 原理为根据报文中domain_id(域标识)、source_value(待翻译的值)、value_type(值类型)获取target_value(对应的值)。使用HASH类型数据,作为实体进行保存。
+# hk hv如：“{ID}”DOMAINID “{DOMAINID}”SOURCEVALUE “{SOURCEVALUE}” VALUETYPE “{VALUETYPE}” TARGETVALUE “{TARGETVALUE}”
+#dag.key.dataMap: ENTITY:DATAMAP:{ID}:HASH
+dag.key.dataMap: ENTITY:DATAMAP:{ID}:HASH
+#为便于apisix使用，将域标识和待翻译的值和类型作为key，对应的值作为value。使用String类型进行存储
+dag.key.dataMapTragetValue: DATAMAP:{DOMAINID}.{VALUETYPE}.{SOURCEVALUE}:STRING
+
+#针对每个字典翻译指定一个版本号，每次模板进行新增或者修改的时候，将对版本号进行修改。使用SORTEDSET类型数据
+## value如："{SCORE}""{DOMAINID}.{VALUETYPE}.{SOURCEVALUE}"
+dag.key.dataMapVersion: VERSION:DATAMAP:SORTEDSET
+
+
+#灰度路由，APPLYERID：提供者id，APPID:应用id，CITYID:地市id
+dag.key.grayRoute: RELATION:ROUTE.ENVFLAGS:{APPLYERID}:HASH
+
+#普罗米修斯
+dag.key.prometheus: PROMETHEUS:{HOSTNAME}.{MODEL}:HASH
+
+
+#省能运与三码的映射
+dag.key.amg.aoc.api.relation: RELATION:AMG:AOC:API:{PROCESS_CODE}:HASH
+
+dag.key.amg.aoc.app.relation: RELATION:AMG:AOC:APP:{AOC_APP_ID}:HASH
+
+#三码与省能运的映射
+dag.key.aoc.amg.api.relation: RELATION:AOC:AMG:API:{API_CODE}:{API_VERSION}:HASH
+
+dag.key.aoc.amg.app.relation: RELATION:AOC:AMG:APP:{AMG_APP_ID}:HASH
+
+
+#记录失败请求
+dag.key.failed.req.record: HISTORY:REQUEST:STARTTIME:ZSET
+
+
+#路由组实体
+dag.key.route.group: ENTITY:ADDRESSGROUP:{ID}:HASH
+
+#灰度配置
+dag.key.grayConf: GRAY:CONF:{APPLIER.ID}:HASH
+
+#灰度路由组
+dag.key.grayGroup: GRAY:GROUP:{FLAG}:HASH
+
+#功能开关
+dag.key.businessSwitch: BUSINESS:SWITCH:{BUSINESS.CODE}:STRING
+
+#需要做二次权限检查的 能力
+dag.key.abilityAuthorization: AUTHENTICATION:ABILITY:{ABILITY.CODE}:HASH
+
+#二次权限检查的白名单, api_id+group_id 组合键
+dag.key.authorizationApiGroup: AUTHENTICATION:ABILITY:{API.CODE}:{GROUP.ID}:HASH
+
+#返回码配置
+dag.key.returnCodeConfig: BUSINESS:RETURNCODE:{BUSINESS.CODE}:HASH
+
+
+#熔断配置信息
+dag.key.breakerApiProcessCode: BREAKER:API:CONFIG:{PROCESS.CODE}:HASH
+
+#当前熔断状态
+dag.key.breakerApiStatusProcessCode: BREAKER:API:STATUS:{PROCESS.CODE}:STRING
+
+#熔断记录数据
+dag.key.breakerApiEventProcessCode: BREAKER:API:EVENT:LOG:{PROCESS.CODE}:HASH
+
+#熔断中止标识
+dag.key.breakerApiEventAbortProcessCode: BREAKER:API:EVENT:ABORT:{PROCESS.CODE}:STRING
+
+
+#dubbo的地市与组对应关系
+dag.key.dubboCityGroup: ENTITY:DUBBOCITYGROUP:HASH
+
+#dubbo服务组地址
+dag.key.dubboGroupAddress: ENTITY:DUBBOGROUPADR:{SERVER_GROUP}:{ADDRESS_GROUP}:HASH
+
