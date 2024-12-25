@@ -92,6 +92,73 @@ local function print_urls(urls)
     return str
 end
 
+function _M.long_call(req_info, service_info, req_body, headers,ctx)
+    core.log.info("long_call_service_info:",core.json.delay_encode(service_info))
+    --重试类型，重试次数，超时时长
+    local retry_type, retries, timeout = get_timeout_retries(req_info.sys.app_id or "", service_info.CODE)
+    -- httpc初始化
+    local httpc = http.new()
+    httpc:set_timeout(timeout)
+    if #service_info.ADDRESS == 0 then
+        return nil, exception_util.build_err_tab(err_type.EXCEPT_MEMDB,
+                                                 err_code.DAG_ERR_SERVICE_CALL_URL_EMPTY,
+                                                 "【NY】服务配置错误，主地址url数量为0")
+    end
+    -- 头部参数过滤
+    headers["host"] = nil
+    headers["Host"] = nil
+
+    local service_log=req_info.services[#req_info.services]
+    local encoding = service_info.ENCODING
+    local format = service_info.FORMAT
+    local res, err ,target_url = retry_overtime.service_retry(service_info.ADDRESS, retries,
+    retry_type, http_req, httpc,
+    service_info.HTTPMETHOD, req_body, headers,service_log)
+
+    if not res then
+        core.log.error("请求id:",ctx.req_id,"服务code:",service_info.CODE)
+        core.log.error("请求id:",ctx.req_id,"服务调用方法:",service_info.HTTPMETHOD)
+        core.log.error("请求id:",ctx.req_id,"服务调用地址:",print_urls(target_url))
+        core.log.error("请求id:",ctx.req_id,"服务请求头:",core.json.delay_encode(headers))
+        core.log.error("请求id:",ctx.req_id,"服务请求报文:",req_body or "")
+        req_info.res_status = 500
+        if err == "timeout" then
+            core.log.error("请求id:",ctx.req_id,"服务调用超时")
+            core.log.error("请求id:",ctx.req_id,"服务timeout:",timeout)
+            return nil, exception_util.build_err_tab(err_type.EXCEPT_TIMEOUT,
+                                                     err_code.DAG_ERR_SERVICE_CALL_TIMEOUT,
+                                                     "【NY】"..service_info.CODE.."服务调用超时,url:"..print_urls(target_url).. ",timeout:"..timeout .. "ms")
+        end
+        core.log.error("请求id:",ctx.req_id,"服务调用错误:",err)
+        return nil,exception_util.build_err_tab(err_type.EXCEPT_MIDDLE,
+                                                err_code.DAG_ERR_SERVICE_CALL_FAIL,
+                                                "【NY】"..service_info.CODE.."服务调用失败,url:" .. print_urls(target_url) .. "err_msg:" .. err)
+
+    end
+    req_info.res_status = res.status
+    if res.status ~=200 then
+        core.log.error("请求id:",ctx.req_id,",服务调用方法:",service_info.HTTPMETHOD)
+        core.log.error("请求id:",ctx.req_id,",服务调用地址:",print_urls(target_url))
+        core.log.error("请求id:",ctx.req_id,",服务请求头:",core.json.delay_encode(headers))
+        core.log.error("请求id:",ctx.req_id,",服务请求报文:",req_body or "")
+        core.log.error("请求id:",ctx.req_id,",服务调用失败,错误状态码:",res.status)
+        core.log.error("请求id:",ctx.req_id,",服务响应报文:",res.body)
+        return nil, exception_util.build_err_tab(err_type.EXCEPT_MIDDLE,
+                                                 err_code.DAG_ERR_SERVICE_CALL_FAIL,
+                                                 "【NY】"..service_info.CODE.."服务调用失败,url:" ..print_urls(target_url) .. ",status:" .. res.status .. ",body:" .. (res.body or "nil"))
+    end
+    req_info.sys.es_flag = 0
+    res.body = res.body or ""
+    if format == "XML" then
+        if encoding == "UTF-8" then
+            res.body = string_util.check_xml_declaration(res.body,2)
+        else
+            res.body = string_util.check_xml_declaration(res.body,1)
+        end
+    end
+    return res
+end
+
 -- ===================================模块方法======================================
 
 function _M.call(req_info, service_info, req_body, headers,ctx)

@@ -33,5 +33,14 @@ function _M.ability_call(ctx,conf)
     return service_call.call(req_info,service_name,app_id,route_value,req_tab,headers,ctx)
 end
 
-
+function _M.long_protocol_call(ctx,conf)
+    local req_info=ctx.req_info
+    local sys_tab=req_info.sys
+    -- 当前能力为透传能力，直接获取process_code作为服务名
+    local service_name=conf.service_code
+    local app_id=sys_tab.app_id
+    local req_tab=req_info.req_tab
+    local headers=ngx.req.get_headers(nil,sys_tab.transfer_raw_header=="1")
+    return service_call.long_call_before(req_info,service_name,app_id,req_tab,headers,ctx)
+end
 return _M

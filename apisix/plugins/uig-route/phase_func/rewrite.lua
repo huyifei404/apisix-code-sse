@@ -213,6 +213,67 @@ local function protocol_process(conf,ctx,req_body)
     -- ===skywalking===
 end
 
+local function info_process(conf, ctx, req_body)
+    sw8.ability_start(ctx)
+    log.info("拦截 uri:", ngx.var.uri)
+    local req_info=ctx.req_info
+    local req_headers = ngx.req.get_headers(nil,true)
+    local trace_id = req_headers["traceid"]
+    if trace_id ~= nil then
+        log.info("设置后的ctx.req_id:",ctx.req_id)
+        ctx.req_id = trace_id
+    else
+        log.info("客户端传入的trace_id:",trace_id)
+        if ctx.business_switch and ctx.business_switch.ZIPKINTRACE_SWITCH == business_switch_code.SWITCH_OPEN then
+            ctx.req_id = snowflake_util.next_trace_id()
+        end
+    end
+    log.info("客户端请求头:",core.json.delay_encode(req_headers))
+    log.info("客户端请求报文:",req_body)
+    -- 获取报文的格式和编码
+    req_body = string_util.check_xml_declaration(req_body,1)
+    local app_format, app_encoding, err = fetch_fmt_encode(req_body)
+    if not app_format or not app_encoding then
+        -- if amg_req_handler.check_header(req_headers) then
+        --     return amg_req_handler.execute_amg_process(ctx,nil,true)
+        -- end
+        req_info.app_format="XML"
+        req_info.app_encoding="UTF-8"
+        core.log.error("获取请求格式和编码失败:",err)
+        return exception.throw(req_info, exception.type.EXCEPT_FORMAT,
+                                exception.code.DAG_ERR_ROUTE_XML_FORMAT_ERR, err)
+    end
+    req_info.app_format = app_format
+    req_info.app_encoding = app_encoding
+    log.info("req_info:", core.json.delay_encode(req_info))
+    local process_code, app_id,err = fetch_process_appid(req_body, app_format)
+    if err then
+        core.log.error("请求报文格式错误:",err)
+        return exception.throw(req_info, exception.type.EXCEPT_REQUEST,
+                                exception.code.DAG_ERR_REQ_BODY,
+                                "报文格式错误:"..err)
+    end
+    -- 若当前请求为GET请求，则从请求头获取process_code
+    if get_method() == "GET" then
+        core.log.info("headers:",core.json.delay_encode(req_headers))
+        process_code = req_headers[GET_PROCESS_CODE_HEADER] or req_headers[GET_PROCESS_CODE_HEADER_LOWER] or process_code
+        log.info("get请求，从请求头获取process_code:",process_code)
+    end
+    core.log.info("process_code:", process_code or "nil", ",app_id:",
+                    app_id or "nil")
+    req_info.app_id = app_id
+    req_info.service_name = process_code
+    req_info.headers = req_headers
+    local new_uri = "/" .. process_code
+    log.info("new_uri:", new_uri)
+    ngx.req.set_uri(new_uri)
+    ctx.var.uri = new_uri
+
+    -- ===skywalking===
+    sw8.set_ability_code(ctx,process_code)
+    
+end
+
 -- 通用uig请求接入
 local function uig_process(conf,ctx)
     log.info("通用uig请求接入")
@@ -260,6 +321,12 @@ local function shop_process(conf,ctx)
     end
 end
 
+-- SSE/WebSocket协议请求接入
+local function sse_process(conf, ctx)
+    log.info("长连接协议接入")
+    return info_process(conf,ctx,ctx.req_info.raw_req_body)
+end
+
 -- GET请求处理
 local function get_process(conf,ctx)
     -- 获取url参数，转为请求body
@@ -295,7 +362,8 @@ end
 local funcs={
     uig=uig_process,
     open=open_process,
-    shop=shop_process
+    shop=shop_process,
+    sse=sse_process
 }
 -- ==================================模块方法=================================
 function _M.invoke(conf, ctx)

@@ -5,7 +5,7 @@ local nkeys                 = require("table.nkeys")
 local pairs                 = pairs
 local ipairs                = ipairs
 local consumer              = require("apisix.consumer")
-local trace_logger          = require("apisix.plugins.trace-logger")
+-- local trace_logger          = require("apisix.plugins.trace-logger")
 local router                = require("apisix.router")
 
 local breaker_dict          = ngx.shared["plugin-single-ability-breaker"]
@@ -42,18 +42,18 @@ function _M.get_template_memory()
     return 200,result
 end
 
--- kafka日志缓存
-function _M.get_kafka_log_memory()
-    local entries = trace_logger.get_entries()
-    local size = 0
-    for _,v in ipairs(entries) do
-        size = size + #v
-    end
-    return 200,{
-        used_memory = size,
-        number = #entries
-    }
-end
+-- -- kafka日志缓存
+-- function _M.get_kafka_log_memory()
+--     local entries = trace_logger.get_entries()
+--     local size = 0
+--     for _,v in ipairs(entries) do
+--         size = size + #v
+--     end
+--     return 200,{
+--         used_memory = size,
+--         number = #entries
+--     }
+-- end
 
 -- redis数据缓存
 

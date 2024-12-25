@@ -81,9 +81,9 @@ function _M.parse_domain(host)
         return nil, err
     end
 
-    log.info("parse addr: ", json.delay_encode(ip_info))
-    log.info("resolver: ", json.delay_encode(utils.get_resolver()))
-    log.info("host: ", host)
+    -- log.info("parse addr: ", json.delay_encode(ip_info))
+    -- log.info("resolver: ", json.delay_encode(utils.get_resolver()))
+    -- log.info("host: ", host)
     if ip_info.address then
         log.info("dns resolver domain: ", host, " to ", ip_info.address)
         return ip_info.address

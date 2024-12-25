@@ -809,8 +809,8 @@ end
 
 
 local function check_single_plugin_schema(name, plugin_conf, schema_type, skip_disabled_plugin)
-    core.log.info("check plugin schema, name: ", name, ", configurations: ",
-        core.json.delay_encode(plugin_conf, true))
+    -- core.log.info("check plugin schema, name: ", name, ", configurations: ",
+        -- core.json.delay_encode(plugin_conf, true))
     if type(plugin_conf) ~= "table" then
         return false, "invalid plugin conf " ..
             core.json.encode(plugin_conf, true) ..

@@ -45,7 +45,7 @@ local function filter(route)
 
     apisix_upstream.filter_upstream(route.value.upstream, route)
 
-    core.log.info("filter route: ", core.json.delay_encode(route, true))
+    -- core.log.info("filter route: ", core.json.delay_encode(route, true))
 end
 
 

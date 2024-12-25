@@ -219,7 +219,18 @@ function _M.access(conf, ctx)
         -- ctx.req_info.is_process_template=true
         -- log.debug("能力响应报文:",body)
         -- return status,body
-    end
+        --长链接：SSE/WebSocket
+    elseif conf.type == 3 then
+        local res, err_tab = simple_ability.long_protocol_call(ctx,conf)
+        if not res then
+            log.error("透传能力调用失败:",err_tab.msg)
+            log.error("外围请求方法:",ngx.req.get_method())
+            log.error("外围请求报文:",core.request.get_body())
+            return exception.throw(req_info, err_tab.type, err_tab.code,
+                    err_tab.msg)
+        end
+        return res.status, res.body
+    end 
 end
 
 local function find_field_value(obj, field_path)

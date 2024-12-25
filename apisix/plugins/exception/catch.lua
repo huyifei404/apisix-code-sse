@@ -1,7 +1,7 @@
 local core=require("apisix.core")
 local tostring=tostring
 local template_query=require("apisix.plugins.dag-datasource.query_process.template_query")
-local sfdl_builder=require("apisix.plugins.sfdl.element.builder")
+-- local sfdl_builder=require("apisix.plugins.sfdl.element.builder")
 local ngx=ngx
 local io_open=io.open
 local read_conf_util=require("apisix.plugins.utils.read_conf_util")

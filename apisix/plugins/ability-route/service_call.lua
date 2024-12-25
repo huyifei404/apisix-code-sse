@@ -318,6 +318,73 @@ function _M.call(req_info,service_name,app_id,route_value,req_tab,header_tab,ctx
     return http_call.call(req_info,service_info,req_body,header_tab,ctx)
 end
 
+function _M.long_call_before(req_info,service_name,app_id,req_tab,header_tab,ctx)
+    core.log.info("长连接协议服务编码：", service_name)
+    core.log.info("长连接协议应用ID：", app_id)
+    core.log.info("长连接协议请求信息：", core.json.encode(req_tab))
+    core.log.info("长连接协议头节点：", core.json.encode(header_tab))
+
+    -- 查询服务信息
+    local service_info,err_tab=get_service_info(ctx,service_name,app_id)
+    core.log.info("service_info:",core.json.delay_encode(service_info))
+    if not service_info then
+        return nil,err_tab
+    end
+    req_info.service_info=service_info
+
+    --判断get/post请求,是则将req_tab转为url参数，不是则转为req_body
+    local req_body
+    local url_param
+    local content_type
+
+    if service_info.HTTPMETHOD == "GET" or service_info.HTTPMETHOD == "get" then
+        log.info("后端服务GET请求，body参数转为url参数")
+        url_param=generate_url_param(req_tab)
+        log.info("url参数:",url_param)
+    else
+        -- if service_info.FORMAT == "FORMDATA" then
+        --     return nil,exception_util.build_err_tab(err_type.EXCEPT_MEMDB,
+        --                     err_code.DAG_ERR_SERVICE_CONF,"当服务format为FORMDATA时，不能使用sys.transfer_raw_body配置")
+        -- end
+        log.info("访问长连接服务时，报文直接透传")
+        req_body = req_info.raw_req_body
+    end
+    -- else
+    --     core.log.info("service format:",service_info.FORMAT)
+    --     req_body,err=convert_util.tab_to_body(req_tab,"UTF-8",service_info.ENCODING,service_info.FORMAT)
+    --     if not req_body then
+    --         core.log.error(err)
+    --         return nil,exception_util.build_err_tab(err_type.EXCEPT_FORMAT,
+    --                             err_code.DAG_ERR_SERVICE_CALL_SERVICE_PARAM_ERR,
+    --                             err)
+    --     end
+    -- end
+
+      -- 拼接服务的url,包含path和url_param
+      ok,err_tab = concat_path(service_info,url_param)
+      if not ok then
+          return err_tab
+      end
+  
+      core.log.info("服务请求报文:",req_body or "nil")
+
+    -- 配置请求header
+    if service_info.HEADERSHIELD=="2" then
+        emergency_log.g_log(ctx,"过滤服务请求头")
+        header_tab = new_tab(0,2)
+    else
+        if ctx.business_switch.ZIPKINTRACE_SWITCH == business_switch_code.SWITCH_OPEN then
+            header_tab["traceid"] = service_log.span_id
+        end
+    end
+    local ok,err_tab=set_header_param(service_info,header_tab,req_body and #req_body or nil,content_type,sys.ignore_charset=="1")
+    if not ok then
+        return nil,err_tab
+    end
+
+    return http_call.long_call(req_info,service_info,req_body,header_tab,ctx)
+end
+
 -- 服务调用，req_body
 function _M.template_call(req_info,service_name,span_node,app_id,route_value,req_body,header_tab,ctx)
     emergency_log.g_log(ctx,"编排服务编码:",service_name)
