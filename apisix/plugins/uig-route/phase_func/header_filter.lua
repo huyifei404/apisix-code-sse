@@ -90,15 +90,19 @@ function _M.invoke(conf,ctx)
     emergency_log.g_log(ctx,"响应模板输入报文:",resp_body)
     local resp_tab, err
     if not req_info.is_sys_err and req_info.sys.ex_class==nil then
-        -- 执行响应模板
-        resp_tab, err = process_resp_body(ctx, resp_body)
-        -- 打印sys系统参数
-        emergency_log.sys_log(ctx)
-        if not resp_tab then
-            core.log.error("响应模板执行错误:", err)
-            
-            exception.throw(req_info, exception.type.EXCEPT_DAG,
-                            exception.code.DAG_ERR_SERVICE_ERR, err)
+        if not conf.type=="sse" then
+            -- 执行响应模板
+            resp_tab, err = process_resp_body(ctx, resp_body)
+            -- 打印sys系统参数
+            emergency_log.sys_log(ctx)
+            if not resp_tab then
+                core.log.error("响应模板执行错误:", err)
+                
+                exception.throw(req_info, exception.type.EXCEPT_DAG,
+                                exception.code.DAG_ERR_SERVICE_ERR, err)
+            end
+        else
+            resp_tab = {}
         end
     end
     if req_info.is_sys_err == true or req_info.sys.ex_class then

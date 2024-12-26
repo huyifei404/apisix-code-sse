@@ -148,7 +148,7 @@ do
     -- 进程id为nil(特权进程）执行定时任务
     if ngx.worker.id() == nil then
         local timer_config = read_conf_util.get_conf("timer_config")
-        local ok,err = core.timer.new("datamap更新定时任务",fetch_data,{check_interval = timer_config.datamap_query})
+        -- local ok,err = core.timer.new("datamap更新定时任务",fetch_data,{check_interval = timer_config.datamap_query})
         if not ok then
             core.log.error("datamap更新定时任务启动失败:",err)
         end

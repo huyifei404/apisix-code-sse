@@ -264,6 +264,8 @@ local function info_process(conf, ctx, req_body)
     req_info.app_id = app_id
     req_info.service_name = process_code
     req_info.headers = req_headers
+    req_info.sys = new_tab(0,10)
+    req_info.sys.transfer_raw_body = "1"
     local new_uri = "/" .. process_code
     log.info("new_uri:", new_uri)
     ngx.req.set_uri(new_uri)

@@ -23,7 +23,7 @@ local schema = {
     type = "object",
     properties = {
         -- 1 透传能力,2 编排能力
-        type = {type = "integer", enum = {1, 2}},
+        type = {type = "integer", enum = {1, 2, 3}},
         template_id={
             type = "string", minLength = 1, maxLength = 64
         },
@@ -229,6 +229,9 @@ function _M.access(conf, ctx)
             return exception.throw(req_info, err_tab.type, err_tab.code,
                     err_tab.msg)
         end
+        ctx.req_info.svc_resp_header=res.headers
+        ngx.header["Content-Length"] = nil
+        ctx.req_info.ab_resp_body=res.body        
         return res.status, res.body
     end 
 end
@@ -257,10 +260,13 @@ function _M.header_filter(conf, ctx)
         core.log.error("无法从上下文获取响应table")
         return
     end
-
+    
     local resp_body
     if req_info.sys.transfer_raw_body == "1" and conf.type == 1 then
         -- 透传情况下将服务的返回报文透传给外围
+        resp_body = req_info.ab_resp_body
+    elseif conf.type == 3 then
+        core.log.info("req_info.ab_resp_body:", core.json.delay_encode(req_info.ab_resp_body))
         resp_body = req_info.ab_resp_body
     else
         -- 经响应模板处理后，编码必定为UTF-8

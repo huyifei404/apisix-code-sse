@@ -330,7 +330,10 @@ function _M.long_call_before(req_info,service_name,app_id,req_tab,header_tab,ctx
     if not service_info then
         return nil,err_tab
     end
-    req_info.service_info=service_info
+    -- req_info.service_info=service_info
+    -- if not req_info.service_info then
+    --     req_info.services = 
+    -- end
 
     --判断get/post请求,是则将req_tab转为url参数，不是则转为req_body
     local req_body
@@ -361,7 +364,7 @@ function _M.long_call_before(req_info,service_name,app_id,req_tab,header_tab,ctx
     -- end
 
       -- 拼接服务的url,包含path和url_param
-      ok,err_tab = concat_path(service_info,url_param)
+      local ok,err_tab = concat_path(service_info,url_param)
       if not ok then
           return err_tab
       end
@@ -377,7 +380,7 @@ function _M.long_call_before(req_info,service_name,app_id,req_tab,header_tab,ctx
             header_tab["traceid"] = service_log.span_id
         end
     end
-    local ok,err_tab=set_header_param(service_info,header_tab,req_body and #req_body or nil,content_type,sys.ignore_charset=="1")
+    local ok,err_tab=set_header_param(service_info,header_tab,req_body and #req_body or nil,content_type)
     if not ok then
         return nil,err_tab
     end

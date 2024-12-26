@@ -12,6 +12,7 @@ local updata_time                   = ngx.update_time
 local time_now                      = ngx.now
 local emergency_log                 = require("apisix.plugins.emergency-log").g_log
 local json_delay_encode             = core.json.delay_encode
+local new_tab = require "table.new"
 
 local sw8                           = require("apisix.plugins.sw-prefix")
 
@@ -95,7 +96,7 @@ end
 function _M.long_call(req_info, service_info, req_body, headers,ctx)
     core.log.info("long_call_service_info:",core.json.delay_encode(service_info))
     --重试类型，重试次数，超时时长
-    local retry_type, retries, timeout = get_timeout_retries(req_info.sys.app_id or "", service_info.CODE)
+    local retry_type, retries, timeout = get_timeout_retries(req_info.app_id or "", service_info.CODE)
     -- httpc初始化
     local httpc = http.new()
     httpc:set_timeout(timeout)
@@ -107,8 +108,7 @@ function _M.long_call(req_info, service_info, req_body, headers,ctx)
     -- 头部参数过滤
     headers["host"] = nil
     headers["Host"] = nil
-
-    local service_log=req_info.services[#req_info.services]
+    local service_log=new_tab(5,0)
     local encoding = service_info.ENCODING
     local format = service_info.FORMAT
     local res, err ,target_url = retry_overtime.service_retry(service_info.ADDRESS, retries,
@@ -146,7 +146,9 @@ function _M.long_call(req_info, service_info, req_body, headers,ctx)
         return nil, exception_util.build_err_tab(err_type.EXCEPT_MIDDLE,
                                                  err_code.DAG_ERR_SERVICE_CALL_FAIL,
                                                  "【NY】"..service_info.CODE.."服务调用失败,url:" ..print_urls(target_url) .. ",status:" .. res.status .. ",body:" .. (res.body or "nil"))
-    end
+    end  
+    core.log.info("请求id:",ctx.req_id,",服务调用响应头:",core.json.delay_encode(res.headers))
+    core.log.info("请求id:",ctx.req_id,",服务调用响应报文:",res.body)
     req_info.sys.es_flag = 0
     res.body = res.body or ""
     if format == "XML" then

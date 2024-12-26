@@ -17,7 +17,7 @@ local schema = {
     properties = {
         type={
             type="string",
-            enum={"uig","open","shop"}
+            enum={"uig","open","shop","sse"}
         },
         uig_uri={
             type="string",
@@ -29,6 +29,10 @@ local schema = {
         },
         shop_uris={
             type="object"
+        },
+        sse_uri={
+            type="string",
+            pattern="(/.*)"
         }
     },
     additionalProperties = false,

@@ -240,7 +240,7 @@ local function insert_route(self, opts)
     self.match_data[self.match_data_index] = {opts}
 
     radix.radix_tree_insert(self.tree, path, #path, self.match_data_index)
-    log_info("insert route path: ", path, " dataprt: ", self.match_data_index)
+    -- log_info("insert route path: ", path, " dataprt: ", self.match_data_index)
     return true
 end
 
@@ -352,7 +352,7 @@ function pre_insert_route(self, path, route, global_opts)
         route_opts.path = path
     end
 
-    log_info("path: ", route_opts.path, " operator: ", route_opts.path_op)
+    -- log_info("path: ", route_opts.path, " operator: ", route_opts.path_op)
 
     route_opts.metadata = route.metadata
     route_opts.handler  = route.handler

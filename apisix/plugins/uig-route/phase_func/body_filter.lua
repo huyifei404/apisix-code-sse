@@ -16,7 +16,7 @@ function _M.invoke(conf, ctx)
     if body then
         if ngx.status == 200 then
             -- failed_req_record.delete_req_record(ctx)
-            core.log.error("body_filter:", "200, success")
+            core.log.info("body_filter:", core.json.delay_encode(body))
         end
     else
         body = "系统错误，无法正常处理"
