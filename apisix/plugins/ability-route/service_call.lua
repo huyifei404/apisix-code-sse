@@ -6,6 +6,7 @@ local exception_util        = require("apisix.plugins.exception.util")
 local err_type              = require("apisix.plugins.exception.type")
 local err_code              = require("apisix.plugins.exception.code")
 local gray_route            = require("apisix.plugins.dag-datasource.query_process.gray_route_query")
+local websocket_call        = require("apisix.plugins.ability-route.websocket_call")
 local upper_str             = string.upper
 local ngx                   = ngx
 local tab_new               = require("table.new")
@@ -318,7 +319,7 @@ function _M.call(req_info,service_name,app_id,route_value,req_tab,header_tab,ctx
     return http_call.call(req_info,service_info,req_body,header_tab,ctx)
 end
 
-function _M.long_call_before(req_info,service_name,app_id,req_tab,header_tab,ctx)
+function _M.sse_call_before(req_info,service_name,app_id,req_tab,header_tab,ctx)
     core.log.info("长连接协议服务编码：", service_name)
     core.log.info("长连接协议应用ID：", app_id)
     core.log.info("长连接协议请求信息：", core.json.encode(req_tab))
@@ -386,6 +387,28 @@ function _M.long_call_before(req_info,service_name,app_id,req_tab,header_tab,ctx
     end
 
     return http_call.long_call(req_info,service_info,req_body,header_tab,ctx)
+end
+
+function _M.wb_call_before(req_info,service_name,app_id,req_tab,header_tab,ctx)
+    --整理websocket调用前数据
+    core.log.info("websocket uri数据信息获取")
+    --获取服务信息
+    local service_info,err_tab=get_service_info(ctx,service_name,app_id)
+    core.log.info("service_info:",core.json.delay_encode(service_info))
+    if not service_info then
+        return nil,err_tab
+    end
+    req_info.service_info=service_info
+
+    --判断请求协议是否是GET
+    if string.upper(service_info.URLTYPE) == "GET" or "WS" then
+        log.info("websocket调用地址:", core.json.delay_encode(service_info.ADDRESS))
+    else
+        return nil, "invoke websocket uri failed,uri error type"
+    end
+
+    websocket_call.web_proxy(service_info) 
+
 end
 
 -- 服务调用，req_body

@@ -624,8 +624,8 @@ local function sync_data(self)
     end
 
     local dir_res, err = waitdir(self)
-    log.info("waitdir key: ", self.key, " prev_index: ", self.prev_index + 1)
-    log.info("res: ", json.delay_encode(dir_res, true), ", err: ", err)
+    -- log.info("waitdir key: ", self.key, " prev_index: ", self.prev_index + 1)
+    -- log.info("res: ", json.delay_encode(dir_res, true), ", err: ", err)
 
     if not dir_res then
         if err == "compacted" then

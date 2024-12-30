@@ -343,6 +343,9 @@ local function get_process(conf,ctx)
     -- for k,v in pairs(args_tab) do
     --     args_tab[k] = ngx.unescape_uri(v)
     -- end
+    if conf.type == 'sse' then 
+        return info_process(conf,ctx,json_encode(args_tab))
+    end
     return protocol_process(conf,ctx,json_encode(args_tab))
 end
 

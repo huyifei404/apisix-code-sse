@@ -23,7 +23,7 @@ local schema = {
     type = "object",
     properties = {
         -- 1 透传能力,2 编排能力
-        type = {type = "integer", enum = {1, 2, 3}},
+        type = {type = "integer", enum = {1, 2, 3, 4}},
         template_id={
             type = "string", minLength = 1, maxLength = 64
         },
@@ -221,7 +221,8 @@ function _M.access(conf, ctx)
         -- return status,body
         --长链接：SSE/WebSocket
     elseif conf.type == 3 then
-        local res, err_tab = simple_ability.long_protocol_call(ctx,conf)
+         ctx.conn_protocol = "sse"
+        local res, err_tab = simple_ability.sse_protocol_call(ctx,conf)
         if not res then
             log.error("透传能力调用失败:",err_tab.msg)
             log.error("外围请求方法:",ngx.req.get_method())
@@ -233,6 +234,10 @@ function _M.access(conf, ctx)
         ngx.header["Content-Length"] = nil
         ctx.req_info.ab_resp_body=res.body        
         return res.status, res.body
+    elseif conf.type == 4 then
+        ctx.conn_protocol = "websocket"
+        log.info("调用websocket能力")
+        simple_ability.wb_protocol_call(ctx, conf)
     end 
 end
 
@@ -251,6 +256,9 @@ end
 
 function _M.header_filter(conf, ctx)
     if ctx.amg_req_flag then
+        return
+    end
+    if ctx.conn_protocol then
         return
     end
     core.log.info("ability-route header_filter phase start......")

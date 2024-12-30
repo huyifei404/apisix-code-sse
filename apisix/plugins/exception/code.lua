@@ -107,6 +107,7 @@ local _M={
     DAG_ERR_LIMITED_REQUEST_OUT_NUM_LIMIT        = 4003, --同时请求超过限流令牌最大数目
     DAG_ERR_LIMITED_NOT_FOUND_PROCESS_CODE       = 4004, --process_code not found
     DAG_ERR_CONDITION_BREAKER                    = 20016,-- 规则熔断
+    DAG_ERR_WEBSOCKET_CONN                       = 30031, --websocket连接建立失败
 }
 
 return _M

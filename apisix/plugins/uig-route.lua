@@ -138,6 +138,9 @@ function _M.api()
 end
 
 function _M.rewrite(conf, ctx)
+    if ngx.var.remote ~= 9080 or 9180 then 
+        ctx.comm_protocol = ""
+    end    
     if pass_uri[ngx.var.uri] then
         log.info("当前请求为特殊请求,跳过能力调用流程")
         ctx.pass_req_uri=true
@@ -158,7 +161,7 @@ function _M.rewrite(conf, ctx)
 end
 
 function _M.header_filter(conf,ctx)
-    if ctx.pass_req_uri then
+    if ctx.pass_req_uri or ctx.conn_protocol == 'websocket' then
         return
     end
     log.info("uig-route header_filter phase start......")
@@ -166,7 +169,7 @@ function _M.header_filter(conf,ctx)
 end
 
 function _M.body_filter(conf,ctx)
-    if ctx.pass_req_uri then
+    if ctx.pass_req_uri or ctx.conn_protocol == 'websocket' then
         return
     end
     log.info("uig-route body_filter phase start......")
